@@ -1,0 +1,40 @@
+
+<div class="sidebar" data-background-color="black" data-color="azure"
+	th:data-image="@{/private/img/sidebar-3.jpg}">
+
+
+	<div class="sidebar-wrapper">
+		<div class="logo">
+			<a class="simple-text  logo-mini" th:href="@{/admin/home/}"> <img
+				th:src="@{/private/img/logo/LOGOCESDEE.png}" height="35">
+			</a> <a class="simple-text  logo-normal" th:href="@{/admin/home/}">
+				CESDE | SSE</a>
+		</div>
+		<ul class="nav">
+			<th:block data-th-each="modulo : ${modulos}" th:remove="tag">
+				<li class="nav-item"><a class="nav-link" data-toggle="collapse"
+					th:href="${'#'+modulo.idModulo}"> <i th:class="${modulo.icono}"></i>
+						<p th:text="${modulo.nombre}">
+							<b class="caret"></b>
+						</p>
+				</a>
+					<div class="collapse" th:id="${modulo.idModulo}">
+						<ul class="nav">
+							<th:block data-th-each="submodulo:${modulo.submodulos}"
+								th:remove="tag">
+								<th:block
+									data-th-if="${modulo.idModulo == submodulo.modulo.idModulo && submodulo.nombre!= 'Cupon' && submodulo.nombre!= 'Oferta'}">
+									<li class="nav-item "><a class="nav-link"
+										th:href="@{${submodulo.url}}"><span class="sidebar-mini"
+											th:text="${submodulo.nombre.substring(0,1)}">
+										</span> <span class="sidebar-normal"
+											th:text="${submodulo.nombre}"></span></a></li>
+								</th:block>
+							</th:block>
+						</ul>
+					</div>
+					</li>
+			</th:block>
+		</ul>
+	</div>
+</div>

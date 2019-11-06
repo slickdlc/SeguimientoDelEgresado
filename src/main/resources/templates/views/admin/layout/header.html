@@ -1,0 +1,48 @@
+<nav
+	class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+	<div class="container-fluid">
+		<div class="navbar-wrapper">
+			<div class="navbar-minimize">
+				<button id="minimizeSidebar"
+					class="btn btn-just-icon btn-white btn-fab btn-round">
+					<i
+						class="fas fa-ellipsis-v fa-xs text_align-center visible-on-sidebar-regular"></i>
+					<i
+						class="fa fa-th-list fa-xs design_bullet-list-67 visible-on-sidebar-mini"></i>
+					<div class="ripple-container"></div>
+				</button>
+			</div>
+			<a class="navbar-brand" th:href="@{/admin/home/}">Inicio</a>
+		</div>
+		<form class="navbar-form navbar-right" role="search"></form>
+		<button aria-controls="navigation-index" aria-expanded="false"
+			aria-label="Toggle navigation" class="navbar-toggler"
+			data-toggle="collapse" type="button">
+			<span class="sr-only"></span> <span
+				class="navbar-toggler-icon icon-bar"> </span> <span
+				class="navbar-toggler-icon icon-bar"> </span> <span
+				class="navbar-toggler-icon icon-bar"> </span>
+		</button>
+
+		<div class="collapse navbar-collapse justify-content-end">
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown"><a class="nav-link" href="#"
+					id="navbarDropdownProfile" data-toggle="dropdown"
+					aria-haspopup="true" aria-expanded="false"> <span
+						th:text="${nombreCompleto}"></span> <i class="fas fa-user fa-2x">
+					</i>
+						<div class="ripple-container"></div>
+
+				</a>
+					<div aria-labelledby="navbarDropdownProfile"
+						class="dropdown-menu dropdown-menu-right">
+						<!-- 						<a th:id="cajaLink" class="dropdown-item text" href="#" -->
+						<!-- 							th:text="${cajaAbierta}? 'Cerrar Caja':'Abrir Caja'"></a> -->
+						<!-- 						<div class="dropdown-divider"></div> -->
+						<a class="dropdown-item" th:href="@{/logout}"> Cerrar Sesión</a>
+					</div></li>
+			</ul>
+		</div>
+
+	</div>
+</nav>

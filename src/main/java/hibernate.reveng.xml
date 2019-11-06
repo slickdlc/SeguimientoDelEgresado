@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="seguimientoalegresado" match-name="antecedentelaboral"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="carrera"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="departamento"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="dirección"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="egresado"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="estadocivil"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="modalidadestudio"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="modulo"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="motivosituacionegresado"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="opcion"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="perfil"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="perfilacademico"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="permiso"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="primerempleo"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="propuesta"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="sectorinstitucion"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="sexo"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="situacionegresado"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="submodulo"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="tipoaccesoalempleo"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="tipopropuesta"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="usuario"/>
+  <table-filter match-catalog="seguimientoalegresado" match-name="persona"/>
+</hibernate-reverse-engineering>

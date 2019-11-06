@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:fragment="head" th:remove="tag">
+<meta charset="UTF-8" />
+
+<meta th:name="_csrf" th:content="${_csrf.token}" />
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
+<title th:text="${title}"></title>
+<link rel="shortcut icon" type="image/png" th:href="@{/private/img/logo/LOGOCESDEE.png}"/>
+<link crossorigin="anonymous"
+	href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+	rel="stylesheet">
+<!-- CSS Files -->
+<link th:href="@{/private/css/material-dashboard.css?v=2.1.1}"
+	rel="stylesheet" />
+
+</head>
+<body class="">
+	<div class="wrapper ">
+
+		<!-- top navigation -->
+		<div th:fragment="header">
+			<div th:replace="views/admin/layout/header"></div>
+		</div>
+		<!-- /top navigation -->
+
+		<div class="main-panel">
+			<!-- sidebar menu -->
+
+			<div th:fragment="menu">
+				<div th:replace="views/admin/layout/menu"></div>
+			</div>
+			<!-- /sidebar menu -->
+			<div class="content">
+				<div class="container-fluid"></div>
+			</div>
+
+			<div th:fragment="footer" th:remove="tag">
+				<div th:replace="views/admin/layout/footer"></div>
+				
+			</div>
+		</div>
+	</div>
+	<!-- /footer content -->
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" th:href="@{/private/css/material-dashboard.css}" />
+<link th:href="@{/fa/css/all.css}" rel="stylesheet">
+</head>
+<body class="bg-light">
+	<div class="container">
+		<div class="row">
+			<div class="mx-auto mt-5">
+				<div class=" card card-login">
+					<div class="card-header card-header-info text-center">
+						<h4 class="card-title">Sistema de Seguimiento del Egresado</h4>
+					</div>
+					<form th:action="@{/login}" method="post">
+						<div class="card-body">
+							<p align="center">
+								<img style="width: 100px;"
+									th:src="@{/private/img/login-img.png}">
+							</p>
+							<p>Por favor, ingrese sus datos</p>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<i class="fa fa-user"></i>
+									</div>
+								</div>
+								<input name="user" autocomplete="off" type="text"
+									class="form-control" placeholder="Usuario">
+							</div>
+							<div class="input-group mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text"> <i class="fa fa-lock"></i>
+									</span>
+								</div>
+								<input name="pass" autocomplete="off" type="password"
+									class="form-control" placeholder="Contraseña">
+							</div>
+							<div th:if="${param.error}">
+								<div class="alert alert-danger alert-dismissible txt2"
+									role="alert">Usuario o contraseña incorrectos.</div>
+							</div>
+							<div th:if="${param.logout}">
+								<div class="alert alert-info alert-dismissible txt2">Has
+									terminado tu sesión.</div>
+							</div>
+
+						</div>
+						<div class="card-footer justify-content-center">
+							<div align="right">
+								<button class="btn btn-info btn-lg" type="submit">Ingresar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

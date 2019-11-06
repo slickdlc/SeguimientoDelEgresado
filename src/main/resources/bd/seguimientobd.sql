@@ -29,19 +29,8 @@ estado tinyint(4)
 );
 insert into Perfil values(null, "ROLE_ADMIN",1);
 insert into Perfil values(null, "ROLE_EGRESADO",1);
-insert into Perfil values(null, "ROLE_SDE",2);
+insert into Perfil values(null, "ROLE_SDE",1);
 
-create table Usuario(
-idUsuario int auto_increment PRIMARY KEY,
-idPersona int unique,
-usuario varchar(100) unique, 
-pass varchar(100), 
-idPerfil int,
-estado tinyint,
-CONSTRAINT fk_user_persona FOREIGN KEY (idPersona) REFERENCES Persona(idPersona),
-CONSTRAINT fk_user_perfil FOREIGN KEY (idPerfil) REFERENCES perfil(idPerfil)
-);
-Insert into Usuario values (null,1,"admin","$2a$10$gsdwBO7Gc9SvN4iXWWOZyO.J1Liy.beA2ycr8DNHGCk3CRBm2TDVm",1,1);
 
 create table Permiso(
 idPermiso int auto_increment primary key,
@@ -51,27 +40,18 @@ estado tinyint,
 constraint fk_permiso_subModulo foreign key (idOpcion) references Opcion(idOpcion),
 constraint fk_permiso_perfil foreign key (idPerfil) references perfil(idPerfil)
 );
+
 create table Departamento(
 idDepartamento int auto_increment primary key,
 nombreDepartamento varchar(40)
 );
-create table Provincia(
-idProvincia int auto_increment primary key,
-nombreProvincia varchar(40)
-);
-create table Distrito(
-idDistrito int auto_increment primary key,
-nombreDistrito varchar(40)
-);
-create table Dirección(
+create table Direccion(
 idDireccion int auto_increment primary key,
 nombreDireccion varchar(120),
 referenciaDireccion varchar(120),
-idDistrito int,
-idProvincia int,
 idDepartamento int,
-CONSTRAINT pk_dir_dis FOREIGN KEY (idDistrito) REFERENCES Distrito(idDistrito),
-CONSTRAINT pk_dir_prov FOREIGN KEY (idProvincia) REFERENCES Provincia(idProvincia),
+nombreProvincia varchar(40),
+nombreDistrito varchar(40),
 CONSTRAINT pk_dir_dpt FOREIGN KEY (idDepartamento) REFERENCES Departamento(idDepartamento)
 );
 create table EstadoCivil(
@@ -102,35 +82,56 @@ nombreMotivoSituacionEgresado varchar(50)
 Create table PerfilAcademico(
 idPerfilAcademico int auto_increment primary key,
 idCarrera int,
-añoIngreso int,
-añoEgreso int,
-añoTitulacion int,
+anoIngreso int,
+anoEgreso int,
+anoTitulacion int,
 idModalidadEstudio int,
 idSituacionEgresado int,
-idMotivoSituacion int,
+idMotivoSituacionEgresado int,
 detalleMotivoSituacionEgresado varchar(50),
 CONSTRAINT pk_peraca_carr FOREIGN KEY (idCarrera) REFERENCES Carrera(idCarrera),
 CONSTRAINT pk_peraca_motsit FOREIGN KEY (idMotivoSituacionEgresado) REFERENCES MotivoSituacionEgresado(idMotivoSituacionEgresado),
 CONSTRAINT pk_peraca_sitegr FOREIGN KEY (idSituacionEgresado) REFERENCES SituacionEgresado(idSituacionEgresado),
 CONSTRAINT pk_peraca_moes FOREIGN KEY (idModalidadEstudio) REFERENCES ModalidadEstudio(idModalidadEstudio)
 );
-create table Egresado(
+
+create table Usuario(
+idUsuario int auto_increment PRIMARY KEY,
+usuario varchar(100) unique, 
+pass varchar(100), 
+idPerfil int,
+estado tinyint,
+CONSTRAINT fk_user_perfil FOREIGN KEY (idPerfil) REFERENCES Perfil(idPerfil)
+);
+Insert into Usuario values (null,"admin","$2a$10$gsdwBO7Gc9SvN4iXWWOZyO.J1Liy.beA2ycr8DNHGCk3CRBm2TDVm",1,1);
+create table Persona(
 idPersona int auto_increment primary key,
 nombres varchar(70),
 apellidoPaterno varchar(70),
 apellidoMaterno varchar(70),
-edad int,
+dni varchar(8),
+idUsuario int,
+constraint fk_pers_user foreign key (idUsuario) references Usuario(idUsuario)
+);
+create table Egresado(
+idEgresado int auto_increment primary key,
+idPersona int,
+fechaNacimiento date,
 idSexo int,
 idEstadoCivil int,
 numeroCelular varchar(9),
-nombreDireccion varchar(120),
+idDireccion int,
 email varchar(120),
 facebook varchar(120),
 idPerfilAcademico int,
+constraint fk_egre_pers foreign key (idPersona) references Persona(idPersona),
 CONSTRAINT pk_egr_sex FOREIGN KEY (idSexo) REFERENCES Sexo(idSexo),
+CONSTRAINT pk_egr_dir FOREIGN KEY (idDireccion) REFERENCES Direccion(idDireccion),
 CONSTRAINT pk_egr_peraca FOREIGN KEY (idPerfilAcademico) REFERENCES PerfilAcademico(idPerfilAcademico),
 CONSTRAINT pk_egr_esci FOREIGN KEY (idEstadoCivil) REFERENCES EstadoCivil(idEstadoCivil)
 );
+
+
 create table SectorInstitucion(
 idSectorInstitucion int auto_increment primary key,
 nombreSectorInstitucion varchar(40)
@@ -142,6 +143,7 @@ nombreTipoAccesoAlEmpleo varchar(50)
 );
 create table PrimerEmpleo(
 idPrimerEmpleo int auto_increment primary key,
+idEgresado int,
 trabajoDuranteEstudios tinyint(4),
 relacionadoConFormacion tinyint(4),
 nombreInstitucion varchar(50),
@@ -155,11 +157,13 @@ estado tinyint(4),
 mesesAntesDelPrimerEmpleo int,
 idTipoAccesoAlEmpleo int,
 detalleAccesoAlEmpleo varchar(200),
-constraint pk_antlab_tipacc foreign key (idTipoAccesoAlEmpleo) references TipoAccesoAlEmpleo(idTipoAccesoAlEmpleo),
-constraint pk_antlab_secins foreign key (idSectorInstitucion) references SectorInstitucion(idSectorInstitucion)
+constraint fk_primempl_egre foreign key (idEgresado)references Egresado(idEgresado),
+constraint fk_primempl_tipacc foreign key (idTipoAccesoAlEmpleo) references TipoAccesoAlEmpleo(idTipoAccesoAlEmpleo),
+constraint fk_primempl_secins foreign key (idSectorInstitucion) references SectorInstitucion(idSectorInstitucion)
 );
 create table AntecedenteLaboral(
 idAntecedenteLaboral int auto_increment primary key,
+idEgresado int,
 relacionadoConFormacion tinyint(4),
 nombreInstitucion varchar(50),
 cargoEmpleo varchar(50),
@@ -168,46 +172,28 @@ fechaTermino date,
 tipoContrato varchar(50),
 idSectorInstitucion int,
 estado tinyint(4),
-constraint pk_antlab_secins foreign key (idSectorInstitucion) references SectorInstitucion(idSectorInstitucion)
+constraint fk_antlab_egre foreign key (idEgresado)references Egresado(idEgresado),
+constraint fk_antlab_secins foreign key (idSectorInstitucion) references SectorInstitucion(idSectorInstitucion)
 );
-create table (
-id int auto_increment primary key,
-nombre varchar(40)
+create table TipoPropuesta(
+idTipoPropuesta int auto_increment primary key,
+nombreTipoPropuesta varchar(40)
 );
-create table (
-id int auto_increment primary key,
-nombre varchar(40)
+insert into TipoPropuesta values(0,"Capacitacion"),(0,"Especializacion"),(0,"Evento Deportivo"),(0,"Bolsa de Trabajo"),
+(0,"Evento Cultural"),(0,"Otro");
+create table Propuesta(
+idPropuesta int auto_increment primary key,
+idTipoPropuesta int,
+descripcionPropuesta varchar(200),
+constraint fk_prop_tipprop foreign key (idTipoPropuesta)references TipoPropuesta(idTipoPropuesta)
 );
-
-Create table Dia(
-idDia int auto_increment primary key,
-nombreDia varchar(45)
-);
-insert into Dia values(null,"Lunes"),
-						(null,"Martes"),
-						(null,"Miercoles"),
-						(null,"Jueves"),
-						(null,"Viernes"),
-						(null,"Sabado"),
-						(null,"Domingo");
-                        
-				
-Create table Horario(
-idHorario int auto_increment primary key,
-idDia int,
-hora time,
-idTarea int,
-constraint fk_horario_dia foreign key (idDia) references Dia(idDia),
-constraint fk_horario_tarea foreign key(idTarea)references Tarea(idTarea)
-);
-
-create table DetalleTarea(
-idDetalleTarea int auto_increment primary key,
-idHorario int,
-idEstadoTarea int,
-idTarea int,
-comentario varchar(200),
-constraint fk_detalletarea_tarea foreign key (idTarea)references Tarea(idTarea),
-constraint fk_detalletarea_horario foreign key (idHorario)references Horario(idHorario),
-constraint fk_detalletarea_estadotarea foreign key (idEstadoTarea) references EstadoTarea(idEstadoTarea)
+create table Noticia(
+idNoticia int auto_increment primary key,
+descripcionNoticia varchar(255),
+urlFoto varchar(500),
+fechaPublicacion date,
+fechaDespublicacion date,
+idUsuario int,
+estado tinyint(4),
+constraint fk_Not_user foreign key (idUsuario)references Usuario(idUsuario)
 );

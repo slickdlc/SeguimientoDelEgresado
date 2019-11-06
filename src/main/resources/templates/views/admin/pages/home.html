@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="views/admin/layout/layout :: head">
+</head>
+<head>
+<!-- <link th:href="@{/private/user/css/onoffswitch.css}" type="text/css" -->
+<!-- 	rel="stylesheet" /> -->
+</head>
+<body class="">
+	<div class="wrapper ">
+
+		<!-- top navigation -->
+		<div th:replace="views/admin/layout/layout :: menu"></div>
+		<!-- /top navigation -->
+
+		<div class="main-panel">
+			<!-- sidebar menu -->
+
+
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /sidebar menu -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="card bg-info">
+						<div class="card-body">
+							<h5 class="card-category card-category-social">
+								<i class="fas fa-user"></i> <span  th:text="${nombreCompleto}"></span>
+							</h5>
+							<h4 class="card-title">
+								<p>Bienvenido!</p>
+							</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div th:replace="views/admin/layout/layout :: footer" th:remove="tag"></div>
+		</div>
+	</div>
+	<!-- /footer content -->
+</body>
+</html>

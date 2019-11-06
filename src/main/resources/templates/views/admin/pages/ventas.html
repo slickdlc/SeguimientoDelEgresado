@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="views/admin/layout/layout :: head">
+</head>
+<head>
+<!-- <link th:href="@{/private/user/css/onoffswitch.css}" type="text/css" -->
+<!-- 	rel="stylesheet" /> -->
+</head>
+<body class="">
+	<div class="wrapper ">
+		<!-- top navigation -->
+		<div th:replace="views/admin/layout/layout :: menu"></div>
+		<!-- /top navigation -->
+		<div class="main-panel">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /sidebar menu -->
+			<div class="content">
+				<div class="container-fluid" th:if="!${cajaAbierta}">
+					<div class="card bg-danger">
+						<div class="card-body">
+							<h5 class="card-category card-category-social">
+								<i class="fas fa-exclamation-triangle"></i> <span>Caja no
+									abierta</span>
+							</h5>
+							<h4 class="card-title">
+								<p>No se ha abierto la caja. Abra la caja e intentelo otra
+									vez</p>
+								<p>Una vez que abra la caja actualice la página</p>
+							</h4>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid" th:if="${cajaAbierta}">
+					<div class="row" th:if="${ventaRequerida}">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-warning">
+									<h4 class="card-title">Venta</h4>
+									<p class="card-category">Ver Venta</p>
+								</div>
+								<div class="card-body table-responsive">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fa fa-user fa-fw"> </i>
+													</span>
+												</div>
+												<input class="form-control" autocomplete="off"
+													th:value="${ventaRequerida.cliente}? ${ventaRequerida.cliente.persona.nombres +' '+ 
+												ventaRequerida.cliente.persona.apellidoPaterno +' '+
+												ventaRequerida.cliente.persona.apellidoMaterno}:'Clientes Varios'"
+													type="text" min="0" readonly />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fa fa-credit-card fa-fw"> </i>
+													</span>
+												</div>
+												<input class="form-control" autocomplete="off"
+													th:value="${ventaRequerida}? ${ventaRequerida.metodopago.nombre}"
+													required type="text" readonly />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fa fa-truck fa-fw"> </i>
+													</span>
+												</div>
+												<input class="form-control" autocomplete="off"
+													th:value="${ventaRequerida}? ${ventaRequerida.tipoventa.nombre}"
+													required type="text" readonly />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fa fa-user fa-fw"> </i>
+													</span>
+												</div>
+												<input class="form-control" autocomplete="off"
+													th:value="${ventaRequerida}? ${ventaRequerida.usuario.usuario}"
+													required type="text" readonly />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fa fa-dollar-sign fa-fw"> </i>
+													</span>
+												</div>
+												<input class="form-control" autocomplete="off"
+													th:value="${ventaRequerida}? ${ventaRequerida.total}"
+													required type="number" readonly />
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text"> <i
+														class="fa fa-calendar fa-fw"> </i>
+													</span>
+												</div>
+												<input class="form-control" autocomplete="off"
+													th:value="${ventaRequerida}? ${ventaRequerida.fecha}"
+													required type="text" readonly />
+											</div>
+										</div>
+									</div>
+									<table class="w-100">
+										<thead class="text-primary">
+											<tr>
+												<td>Producto</td>
+												<td>Cantidad</td>
+												<td>Precio Unitario</td>
+												<td>Importe</td>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block data-th-each="dv : ${ventaRequerida.detventas}"th:if="${(ventaRequerida.tipoventa.idTipoVenta==3 && dv.estado==1)
+											|| ventaRequerida.tipoventa.idTipoVenta!=3}">
+												<tr>
+													<td th:text="${dv.producto.inventario.nombre}"></td>
+													<td th:text="${dv.producto.precioVenta}"></td>
+													<td th:text="${dv.cantidad}"></td>
+													<td th:text="${dv.importe}"></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" th:if="${camionRequerido}">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title">Camión</h4>
+									<p class="card-category">Confirmar Vendidos</p>
+								</div>
+								<form method="post" id="formCamion"
+									th:action="${'/admin/ventas/confirmarProductos?id='+ camionRequerido.idVenta}">
+									<div class="card-body table-responsive">
+										<div class="row">
+											<div class="col-sm-6">
+												<p>Hora salida</p>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-calendar fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														th:value="${camionRequerido}? ${camionRequerido.fecha}"
+														required type="text" readonly />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<table class="w-100" id="tblDetalleVenta">
+													<thead class="text-primary">
+														<tr>
+															<td>Id</td>
+															<td>Producto</td>
+															<td>Precio Unitario</td>
+															<td>Cantidad</td>
+															<td>Importe</td>
+														</tr>
+													</thead>
+													<tbody>
+														<th:block data-th-each="dv : ${camionRequerido.detventas}" >
+															<tr>
+																<td th:text="${dv.producto.idProducto}">Id</td>
+																<td th:text="${dv.producto.inventario.nombre}"></td>
+																<td th:text="${dv.producto.precioVenta}"></td>
+																<td><input required
+																	class="form-control col-3 cantidad" type="number" min="0"
+																	th:value="${dv.cantidad}" /></td>
+																<td th:text="${dv.importe}"></td>
+															</tr>
+														</th:block>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12 d-flex">
+												<div class=" ml-auto">
+													<button class="btn btn-primary" type="submit"
+														id="btnDevolverProductos">Confirmar Vendidos</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div th:if="${ventaRequerida==null && camionRequerido==null}"
+						th:remove="tag">
+						<div class="row">
+							<div class="col-12">
+								<button type="button" id="btnVentas" class="btn btn-primary">Ventas</button>
+								<button type="button" id="btnDelivery" class="btn btn-warning">Delivery</button>
+								<button type="button" id="btnCamion" class="btn btn-info">Camion</button>
+							</div>
+						</div>
+						<div class="row hidden" id="rowDelivery">
+							<div class="col-lg-12 col-md-12">
+								<div class="card">
+									<div class="card-header card-header-warning">
+										<h4 class="card-title">Delivery</h4>
+										<p class="card-category">Lista de todos los delivery que
+											aun no han sido entregados</p>
+									</div>
+									<div class="card-body table-responsive" id="scrolltable">
+
+										<table id="tblDelivery" class="table w-100">
+											<thead class="text-warning">
+												<tr>
+													<th>Codigo</th>
+													<th>Usuario</th>
+													<th>Cliente</th>
+													<th>Tipo de Venta</th>
+													<th>Total</th>
+													<th>Opciones</th>
+												</tr>
+											</thead>
+											<tbody>
+												<th:block data-th-each="v : ${ventasDelivery}"
+													th:remove="tag">
+													<tr>
+														<td th:text="${v.idVenta}"></td>
+														<td th:text="${v.usuario.persona.nombres}"></td>
+														<td
+															th:text="${v.cliente!=null}? ${v.cliente.persona.nombres}:'Clientes Varios'"></td>
+														<td th:text="${v.tipoventa.nombre}"></td>
+														<td th:text="${v.total}"></td>
+														<td class="td-actions" id="options"><th:block
+																data-th-each="o: ${opcions}" th:remove="tag">
+																<th:block data-th-if="${o.submodulo.nombre=='Ventas'}"
+																	th:remove="tag">
+																	<th:block
+																		data-th-if="${o.nombre=='Confirmar Delivery'}">
+																		<button type="button" class="btn btn-success"
+																			th:attr="onclick=${'confirmarDelivery(this,event,'+v.idVenta+')'}">
+																			<span th:class="${o.icon}"></span>
+																		</button>
+																	</th:block>
+																</th:block>
+																<th:block data-th-if="${o.submodulo.nombre=='Ventas'}"
+																	th:remove="tag">
+																	<th:block data-th-if="${o.nombre=='Rechazar Delivery'}">
+																		<button type="button" class="btn btn-danger"
+																			th:attr="onclick=${'rechazarDelivery(this,event,'+v.idVenta+')'}">
+																			<span th:class="${o.icon}"></span>
+																		</button>
+																	</th:block>
+																</th:block>
+															</th:block></td>
+													</tr>
+												</th:block>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row hidden" id="rowCamion">
+							<div class="col-lg-12 col-md-12">
+								<div class="card">
+									<div class="card-header card-header-info">
+										<h4 class="card-title">Camión</h4>
+										<p class="card-category">Lista de todos los productos que
+											se ha llevado el camión</p>
+									</div>
+									<div class="card-body table-responsive" id="scrolltable">
+
+										<table id="tblCamion" class="table w-100">
+											<thead class="text-warning">
+												<tr>
+													<th>Codigo</th>
+													<th>Usuario</th>
+													<th>Total</th>
+													<th>Opciones</th>
+												</tr>
+											</thead>
+											<tbody>
+												<th:block data-th-each="v : ${ventasCamion}" th:remove="tag">
+													<tr>
+														<td th:text="${v.idVenta}"></td>
+														<td th:text="${v.usuario.persona.nombres}"></td>
+														<td th:text="${v.total}"></td>
+														<td class="td-actions" id="options"><th:block
+																data-th-each="o: ${opcions}" th:remove="tag">
+																<th:block data-th-if="${o.submodulo.nombre=='Ventas'}"
+																	th:remove="tag">
+																	<th:block data-th-if="${o.nombre=='Ver Venta'}">
+																		<button type="button" class="btn btn-success"
+																			th:attr="onclick=${'verCamion(this,event,'+v.idVenta+')'}">
+																			<span th:class="${o.icon}"></span>
+																		</button>
+																	</th:block>
+																</th:block>
+															</th:block></td>
+													</tr>
+												</th:block>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row " id="rowVentas">
+							<div class="col-lg-12 col-md-12">
+								<div class="card">
+									<div class="card-header card-header-primary">
+										<h4 class="card-title">Ventas</h4>
+										<p class="card-category">Lista de todos las ventas</p>
+									</div>
+									<div class="card-body table-responsive" id="scrolltable">
+
+										<table id="tblVenta" class="table w-100">
+											<thead class="text-warning">
+												<tr>
+													<th>Codigo</th>
+													<th>Usuario</th>
+													<th>Cliente</th>
+													<th>Tipo de Venta</th>
+													<th>Total</th>
+													<th>Opciones</th>
+												</tr>
+											</thead>
+											<tbody>
+												<th:block data-th-each="v : ${ventas}" th:remove="tag">
+													<tr>
+														<td th:text="${v.idVenta}"></td>
+														<td th:text="${v.usuario.persona.nombres}"></td>
+														<td
+															th:text="${v.cliente!=null}? ${v.cliente.persona.nombres}:'Clientes Varios'"></td>
+														<td th:text="${v.tipoventa.nombre}"></td>
+														<td th:text="${v.total}"></td>
+														<td class="td-actions" id="options"><th:block
+																data-th-each="o: ${opcions}" th:remove="tag">
+																<th:block data-th-if="${o.submodulo.nombre=='Ventas'}"
+																	th:remove="tag">
+																	<th:block data-th-if="${o.nombre=='Ver Venta'}">
+																		<button type="button" class="btn btn-success"
+																			th:attr="onclick=${'verVenta(this,event,'+v.idVenta+')'}">
+																			<span th:class="${o.icon}"></span>
+																		</button>
+																	</th:block>
+																	<th:block data-th-if="${o.nombre=='Eliminar Venta'}">
+																		<button type="button" class="btn btn-danger"
+																			th:attr="onclick=${'eliminarVenta(this,event,'+v.idVenta+')'}">
+																			<span th:class="${o.icon}"></span>
+																		</button>
+																	</th:block>
+																</th:block>
+															</th:block></td>
+													</tr>
+												</th:block>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div th:replace="views/admin/layout/layout :: footer" th:remove="tag"></div>
+			<script type="text/javascript" th:src="@{/private/user/jsVentas.js}"></script>
+			<script type="text/javascript"
+				th:src="@{/private/user/js/jsMessage.js}"></script>
+		</div>
+	</div>
+	<!-- /footer content -->
+</body>
+</html>

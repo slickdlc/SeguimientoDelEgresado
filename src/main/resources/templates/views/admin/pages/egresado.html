@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="views/admin/layout/layout :: head">
+</head>
+<head>
+<!-- <link th:href="@{/private/user/css/onoffswitch.css}" type="text/css" -->
+<!-- 	rel="stylesheet" /> -->
+</head>
+<body class="">
+	<div class="wrapper ">
+		<!-- top navigation -->
+		<div th:replace="views/admin/layout/layout :: menu"></div>
+		<!-- /top navigation -->
+		<div class="main-panel">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /sidebar menu -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row" th:classappend="${egresadoRequerido}? 'hidden'">
+						<th:block data-th-each="opcion : ${opcions}">
+							<div class="col-lg-4 col-md-6 col-sm-6"
+								th:if="${opcion.nombre=='Agregar Egresado'}">
+								<div class="card card-stats">
+									<div class="card-header card-header-info card-header-icon">
+										<div class="card-icon">
+											<i class="fas fa-plus-circle"> </i>
+										</div>
+										<p class="card-category">Agregar</p>
+										<h3 class="card-title">Egresado</h3>
+									</div>
+									<div class="card-footer">
+										<div class="stats">
+											<button id="btnAgregar" title="Agregar Egresado"
+												class="btn btn-success btn-round" th:text="${opcion.nombre}"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					<div class="row" th:classappend="!${egresadoRequerido}? 'hidden'"
+						id="rowEgresado">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title">Egresado</h4>
+									<p class="card-category">Editar Egresado</p>
+								</div>
+								<div class="card-body">
+									<form
+										th:action="${egresadoRequerido}? ${'modificar?id='+egresadoRequerido.idEgresado}"
+										id="formEgresado" method="post">
+										<input type="hidden" />
+										<legend> Datos personales </legend>
+											<hr/>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-user fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="nombres"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.persona.nombres}"
+														name="nombres" placeholder="Nombres" required type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-male fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="apellidoPaterno" name="apellidoPaterno"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.persona.apellidoPaterno}"
+														placeholder="Apellido paterno" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-female fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="apellidoMaterno" name="apellidoMaterno"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.persona.apellidoMaterno}"
+														placeholder="Apellido materno" required type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+										<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-id-card fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="dni"
+														name="dni"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.persona.dni}"
+														placeholder="Número de DNI" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-birthday-cake fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="fechaNacimiento"
+														name="fechaNacimiento" 
+														th:value="${egresadoRequerido}? ${egresadoRequerido.fechaNacimiento}"
+														placeholder="Fecha de Nacimiento" required type="date" />
+												</div>
+											</div>
+											
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-venus-mars fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="sexo" name="sexo" required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="s:${sexos}">
+															<option
+																th:selected="${egresadoRequerido}? ${egresadoRequerido.sexo.idSexo==s.idSexo}"
+																th:value="${s.idSexo}" th:text="${s.nombreSexo}"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-ring fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="estadoCivil"
+														name="estadoCivil" required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="ec:${estadosciviles}">
+															<option
+																th:selected="${egresadoRequerido}? ${egresadoRequerido.estadocivil.idEstadoCivil==ec.idEstadoCivil}"
+																th:value="${ec.idEstadoCivil}"
+																th:text="${ec.nombreEstadoCivil}"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+										</div>
+											<br/>
+										<legend>Dirección</legend>
+										<hr/>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-map-marker-alt fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="departamento"
+														name="departamento" required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="d:${departamentos}">
+															<option
+																th:selected="${egresadoRequerido}? ${egresadoRequerido.direccion.departamento.idDepartamento==d.idDepartamento}"
+																th:value="${d.idDepartamento}"
+																th:text="${d.nombreDepartamento}"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-map-marked-alt fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="provincia" name="provincia"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.direccion.nombreProvincia}"
+														placeholder="Provincia" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-map-marked-alt fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="distrito" name="distrito"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.direccion.nombreDistrito}"
+														placeholder="Distrito" required type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-map-marked-alt fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="direccion" name="direccion"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.direccion.nombreDireccion}"
+														placeholder="Direccion" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-map-marked-alt fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="refDir"
+														name="refDir"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.direccion.referenciaDireccion}"
+														placeholder="Referencia" required type="text" />
+												</div>
+											</div>
+										</div>
+											<br/>
+										<legend class="mt-3"> Informacion de contacto </legend>
+										<hr/>
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <b> @ </b>
+														</span>
+													</div>
+													<input class="form-control" id="email"
+														name="email" autocomplete="off"
+														placeholder="Correo Electrónico" required type="email"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.email}" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-phone fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" id="numeroCelular"
+														name="numeroCelular" autocomplete="off" placeholder="Celular"
+														required type="number"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.numeroCelular}" />
+												</div>
+											</div>
+											<div class="col-sm-8">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fab fa-facebook-f fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" id="facebook" name="facebook"
+														autocomplete="off" placeholder="Nombre en Facebook"
+														required type="text"
+														th:value="${egresadoRequerido}? ${egresadoRequerido.facebook}" />
+												</div>
+											</div>
+										</div>
+											<br/>
+										<legend class="mt-3">Perfil Académico</legend>
+										<hr/>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-route fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="carrera" name="carrera"
+														required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="c:${carreras}">
+															<option
+																th:selected="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.carrera.idCarrera==c.idCarrera}"
+																th:value="${c.idCarrera}" th:text="${c.nombreCarrera}"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-calendar-minus fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="anoIngreso" name="anoIngreso" required
+														th:value="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.anoIngreso}"
+														placeholder="Año de Ingreso" type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-calendar-plus fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="anoEgreso" name="anoEgreso" required
+														th:value="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.anoEgreso}"
+														placeholder="Año de Egreso" type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-calendar-check fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="anoTitulacion" name="anoTitulacion" required
+														th:value="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.anoTitulacion}"
+														placeholder="Año de Titulación" type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-route fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="modalidadEstudio" name="modalidadEstudio"
+														required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="me:${modalidades}">
+															<option
+																th:selected="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.modalidadestudio.idModalidadEstudio==me.idModalidadEstudio}"
+																th:value="${me.idModalidadEstudio}" th:text="${me.nombreModalidadEstudio + ' ' +me.rangoFecha }"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-route fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="situacionEgresado" name="Situacionegresado"
+														required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="se:${situacionEgresados}">
+															<option
+																th:selected="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.situacionegresado.idSituacionEgresado==se.idSituacionEgresado}"
+																th:value="${se.idSituacionEgresado}" th:text="${se.nombreSituacionEgresado}"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br/>
+										<legend>Información del Usuario</legend>
+										<hr/>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-user fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="user"
+														name="user" required
+														th:value="${egresadoRequerido}? ${egresadoRequerido.persona.dni}"
+														placeholder="Usuario" type="text" readonly />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-lock fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="pass" name="pass" required
+														th:value="${egresadoRequerido}? ${'Confidencial'}"
+														placeholder="Contraseña" type="password" />
+												</div>
+											</div>
+										</div>
+										<br />
+										<div id="divMessage"></div>
+										<div class="row">
+											<div class="col-sm-2">
+												<button id="btnGuardar" class="btn btn-primary"
+													type="submit">Guardar</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" th:classappend="${egresadoRequerido}? 'hidden'"
+						id="lista">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-warning">
+									<h4 class="card-title">Egresados</h4>
+									<p class="card-category">Lista de todos los egresados</p>
+								</div>
+								<div class="card-body table-responsive" id="scrolltable">
+
+									<table id="tblEgresado" class="table w-100">
+										<thead class="text-warning">
+											<tr>
+												<th>Codigo</th>
+												<th>Nombres</th>
+												<th>Apellido Paterno</th>
+												<th>Usuario</th>
+												<th>Estado</th>
+												<th>Opcion</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block data-th-each="e : ${egresados}" th:remove="tag">
+												<tr>
+													<td th:text="${e.idEgresado}"></td>
+													<td th:text="${e.persona.nombres}"></td>
+													<td th:text="${e.persona.apellidoPaterno}"></td>
+													<td th:text="${e.persona.usuario.usuario}"></td>
+													<td th:id="${'estado'+e.idEgresado}"
+														th:class="${e.persona.usuario.estado==1? 'text-success':'text-danger'}"
+														th:text="${e.persona.usuario.estado==1? 'Activo':'Inactivo'}"></td>
+													<td class="td-actions" id="options"><th:block
+															data-th-each="o: ${opcions}" th:remove="tag">
+															<th:block data-th-if="${o.submodulo.nombre=='Egresados'}"
+																th:remove="tag">
+																<th:block data-th-if="${o.nombre=='Editar Egresado'}">
+																	<button type="button" class="btn btn-success"
+																		th:attr="onclick=${'obtener(this,event,'+e.idEgresado+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+																<th:block
+																	data-th-if="${o.nombre=='Cambiar Estado Egresado'}">
+																	<button type="button" class="btn btn-info"
+																		th:attr="onclick=${'cambiarEstado(this,event,'+e.idEgresado+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+															</th:block>
+														</th:block></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div th:replace="views/admin/layout/layout :: footer" th:remove="tag"></div>
+			<script type="text/javascript"
+				th:src="@{/private/user/jsEgresado.js}"></script>
+			<script type="text/javascript"
+				th:src="@{/private/user/js/jsMessage.js}"></script>
+		</div>
+	</div>
+	<!-- /footer content -->
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="views/admin/layout/layout :: head">
+</head>
+<head>
+<!-- <link th:href="@{/private/user/css/onoffswitch.css}" type="text/css" -->
+<!-- 	rel="stylesheet" /> -->
+</head>
+<body class="">
+	<div class="wrapper ">
+		<!-- top navigation -->
+		<div th:replace="views/admin/layout/layout :: menu"></div>
+		<!-- /top navigation -->
+		<div class="main-panel">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /sidebar menu -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row" th:classappend="${usuarioRequerido}? 'hidden'">
+						<th:block data-th-each="opcion : ${opcions}">
+							<div class="col-lg-4 col-md-6 col-sm-6"
+								th:if="${opcion.nombre=='Agregar Usuario'}">
+								<div class="card card-stats">
+									<div class="card-header card-header-info card-header-icon">
+										<div class="card-icon">
+											<i class="fas fa-plus-circle"> </i>
+										</div>
+										<p class="card-category">Agregar</p>
+										<h3 class="card-title">Usuario</h3>
+									</div>
+									<div class="card-footer">
+										<div class="stats">
+											<button id="btnAgregar" title="Agregar Usuario"
+												class="btn btn-success btn-round" th:text="${opcion.nombre}"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					<div class="row" th:classappend="!${usuarioRequerido}? 'hidden'"
+						id="rowUsuario">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title">Usuario</h4>
+									<p class="card-category">Editar Usuario</p>
+								</div>
+								<div class="card-body">
+									<form
+										th:action="${usuarioRequerido}? ${'modificar?id='+usuarioRequerido.usuario.idUsuario}"
+										id="formUsuario" method="post">
+										<input type="hidden" id="idUsuario" th:value="${usuarioRequerido}? ${usuarioRequerido.usuario.idUsuario}"/>
+										<legend> Datos personales </legend>
+										<hr />
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-user fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="nombres"
+														th:value="${usuarioRequerido}? ${usuarioRequerido.nombres}"
+														name="nombres" placeholder="Nombres" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-male fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="apellidoPaterno" name="apellidoPaterno"
+														th:value="${usuarioRequerido}? ${usuarioRequerido.apellidoPaterno}"
+														placeholder="Apellido paterno" required type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-female fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="apellidoMaterno" name="apellidoMaterno"
+														th:value="${usuarioRequerido}? ${usuarioRequerido.apellidoMaterno}"
+														placeholder="Apellido materno" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-id-card fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off" id="dni"
+														name="dni"
+														th:value="${usuarioRequerido}? ${usuarioRequerido.dni}"
+														placeholder="Número de DNI" required type="text" />
+												</div>
+											</div>
+										</div>
+										<legend class="mt-3">Información de Usuario </legend>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-user"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="username" name="username" required
+														th:value="${usuarioRequerido}? ${usuarioRequerido.usuario.usuario}"
+														placeholder="Usuario" type="text" />
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-lock"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="password" name="password" required
+														th:value="${usuarioRequerido}? ${usuarioRequerido.usuario.pass}"
+														placeholder="Contraseña" type="password" />
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-user-cog fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="perfil" name="perfil"
+														required>
+														<option value="">Desplegar</option>
+														<th:block data-th-each="p:${perfiles}">
+															<th:block th:if="${p.idPerfil!=2}">
+																<option
+																	th:selected="${usuarioRequerido}? ${usuarioRequerido.usuario.perfil.idPerfil==p.idPerfil}"
+																	th:value="${p.idPerfil}" th:text="${p.nombre}"></option>
+															</th:block>
+														</th:block>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br />
+										<div id="divMessage"></div>
+										<div class="row">
+											<div class="col-sm-2">
+												<button id="btnGuardar" class="btn btn-primary"
+													type="submit">Guardar</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" th:classappend="${usuarioRequerido}? 'hidden'"
+						id="lista">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-warning">
+									<h4 class="card-title">Usuarios</h4>
+									<p class="card-category">Lista de todos los usuarios</p>
+								</div>
+								<div class="card-body table-responsive" id="scrolltable">
+
+									<table id="tblUsuario" class="table w-100">
+										<thead class="text-warning">
+											<tr>
+												<th>Codigo</th>
+												<th>Usuario</th>
+												<th>Perfil</th>
+												<th>Estado</th>
+												<th>Opcion</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block data-th-each="p : ${personas}" th:remove="tag">
+											
+												<tr th:with="u=${p.usuario}">
+													<td th:text="${u.idUsuario}"></td>
+													<td th:text="${u.usuario}"></td>
+													<td th:text="${u.perfil.nombre}"></td>
+													<td th:id="${'estado'+u.idUsuario}"
+														th:class="${u.estado==1? 'text-success':'text-danger'}"
+														th:text="${u.estado==1? 'Activo':'Inactivo'}"></td>
+													<td class="td-actions" id="options"><th:block
+															data-th-each="o: ${opcions}" th:remove="tag">
+															<th:block data-th-if="${o.submodulo.nombre=='Usuario'}"
+																th:remove="tag">
+																<th:block data-th-if="${o.nombre=='Editar Usuario'}">
+																	<button type="button" class="btn btn-success"
+																		th:attr="onclick=${'obtener(this,event,'+u.idUsuario+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+																<th:block
+																	data-th-if="${o.nombre=='Cambiar Estado Usuario'}">
+																	<button type="button" class="btn btn-info"
+																		th:attr="onclick=${'cambiarEstado(this,event,'+u.idUsuario+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+															</th:block>
+														</th:block></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div th:replace="views/admin/layout/layout :: footer" th:remove="tag"></div>
+			<script type="text/javascript" th:src="@{/private/user/jsUsuario.js}"></script>
+			<script type="text/javascript"
+				th:src="@{/private/user/js/jsMessage.js}"></script>
+		</div>
+	</div>
+	<!-- /footer content -->
+</body>
+</html>

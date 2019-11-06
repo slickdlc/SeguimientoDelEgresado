@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="views/admin/layout/layout :: head">
+</head>
+<head>
+<!-- <link th:href="@{/private/user/css/onoffswitch.css}" type="text/css" -->
+<!-- 	rel="stylesheet" /> -->
+</head>
+<body class="">
+	<div class="wrapper ">
+		<!-- top navigation -->
+		<div th:replace="views/admin/layout/layout :: menu"></div>
+		<!-- /top navigation -->
+		<div class="main-panel">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /sidebar menu -->
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row" th:classappend="${propuestaRequerido}? 'hidden'">
+						<th:block data-th-each="opcion : ${opcions}">
+							<div class="col-lg-4 col-md-6 col-sm-6"
+								th:if="${opcion.nombre=='Realizar Propuesta'}">
+								<div class="card card-stats">
+									<div class="card-header card-header-info card-header-icon">
+										<div class="card-icon">
+											<i class="fas fa-plus-circle"> </i>
+										</div>
+										<p class="card-category">Agregar</p>
+										<h3 class="card-title">Propuesta</h3>
+									</div>
+									<div class="card-footer">
+										<div class="stats">
+											<button id="btnAgregar" title="Realizar Propuesta"
+												class="btn btn-success btn-round" th:text="${opcion.nombre}"></button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</th:block>
+					</div>
+					<div class="row" th:classappend="!${propuestaRequerido}? 'hidden'"
+						id="rowPropuesta">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-primary">
+									<h4 class="card-title">Propuesta</h4>
+									<p class="card-category">Editar Propuesta</p>
+								</div>
+								<div class="card-body">
+									<form
+										th:action="${propuestaRequerido}? ${'modificar?id='+propuestaRequerido.idPropuesta}"
+										id="formPropuesta" method="post">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-male fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="apellidoPaterno" name="apellidoPaterno"
+														th:value="${propuestaRequerido}? ${propuestaRequerido.persona.apellidoPaterno}"
+														placeholder="Apellido paterno" required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fa fa-female fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="apellidoMaterno" name="apellidoMaterno"
+														th:value="${propuestaRequerido}? ${propuestaRequerido.persona.apellidoMaterno}"
+														placeholder="Apellido materno" required type="text" />
+												</div>
+											</div>
+										</div>
+										<br />
+										<div id="divMessage"></div>
+										<div class="row">
+											<div class="col-sm-2">
+												<button id="btnGuardar" class="btn btn-primary"
+													type="submit">Guardar</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" th:classappend="${propuestaRequerido}? 'hidden'"
+						id="lista">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-warning">
+									<h4 class="card-title">Propuestas</h4>
+									<p class="card-category">Lista de todos los propuestas</p>
+								</div>
+								<div class="card-body table-responsive" id="scrolltable">
+
+									<table id="tblPropuesta" class="table w-100">
+										<thead class="text-warning">
+											<tr>
+												<th>Codigo</th>
+												<th>Nombres</th>
+												<th>Apellido Paterno</th>
+												<th>Usuario</th>
+												<th>Estado</th>
+												<th>Opcion</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block data-th-each="e : ${propuestas}" th:remove="tag">
+												<tr>
+													<td th:text="${e.idPropuesta}"></td>
+													<td th:text="${e.persona.nombres}"></td>
+													<td th:text="${e.persona.apellidoPaterno}"></td>
+													<td th:text="${e.persona.usuario.usuario}"></td>
+													<td th:id="${'estado'+e.idPropuesta}"
+														th:class="${e.persona.usuario.estado==1? 'text-success':'text-danger'}"
+														th:text="${e.persona.usuario.estado==1? 'Activo':'Inactivo'}"></td>
+													<td class="td-actions" id="options"><th:block
+															data-th-each="o: ${opcions}" th:remove="tag">
+															<th:block data-th-if="${o.submodulo.nombre=='Propuestas'}"
+																th:remove="tag">
+																<th:block data-th-if="${o.nombre=='Editar Propuesta'}">
+																	<button type="button" class="btn btn-success"
+																		th:attr="onclick=${'obtener(this,event,'+e.idPropuesta+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+																<th:block
+																	data-th-if="${o.nombre=='Cambiar Estado Propuesta'}">
+																	<button type="button" class="btn btn-info"
+																		th:attr="onclick=${'cambiarEstado(this,event,'+e.idPropuesta+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+															</th:block>
+														</th:block></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div th:replace="views/admin/layout/layout :: footer" th:remove="tag"></div>
+			<script type="text/javascript"
+				th:src="@{/private/user/jsPropuesta.js}"></script>
+			<script type="text/javascript"
+				th:src="@{/private/user/js/jsMessage.js}"></script>
+		</div>
+	</div>
+	<!-- /footer content -->
+</body>
+</html>
