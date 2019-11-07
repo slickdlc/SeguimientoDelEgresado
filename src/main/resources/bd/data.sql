@@ -57,17 +57,20 @@ Insert into Opcion values
                         (null,1,"Cambiar Estado Usuario","fas fa-sync-alt"),
                         (null,1,"Editar Usuario","far fa-edit"),
                         (null,1,"Listar Usuarios",""),
-                        (null,2,"Ver Perfil","fas fa-eye"),
+                        (null,2,"Ver Perfil","fas fa-eye"),/*5*/
                         (null,3,"Agregar Egresado","fas fa-plus"),                        
                         (null,3,"Cambiar Estado Egresado","fas fa-sync-alt"),
                         (null,3,"Editar Egresado","far fa-edit"),
                         (null,3,"Listar Egresados",""),
+                        (null,3,"Agregar Antecedente","fas fa-plus"),/*10*/
+                        (null,3,"Editar Antecedente","fas fa-edit"),
+                        (null,3,"Eliminar Antecedente","fas fa-trash"),
                         (null,4,"Realizar Propuesta","fas fa-bullseye"),
                         (null,4,"Listar Propuestas",""),
-                        (null,5,"Agregar Noticia","fas fa-plus"),
+                        (null,5,"Agregar Noticia","fas fa-plus"),/*15*/
                         (null,5,"Cambiar Estado Noticia","fas fa-sync-alt"),
                         (null,5,"Editar Noticia","far fa-edit"),
-                        (null,5,"Listar Noticias","");
+                        (null,5,"Listar Noticias","");/*18*/
 /* <Permisos para el admin>*/
 insert into Permiso values
 						(null,1,1,1),
@@ -84,22 +87,31 @@ insert into Permiso values
                         (null,12,1,1),
 						(null,13,1,1),
                         (null,14,1,1),
-                        (null,15,1,1);
+                        (null,15,1,1),
+                        (null,16,1,1),
+                        (null,17,1,1),
+                        (null,18,1,1);
                         /* <Permisos para el admin/>*/
                         /* <Permisos para el SDE>*/
                         
 insert into Permiso values
                         (null,8,3,1),
                         (null,9,3,1),
+						(null,10,3,1),
                         (null,11,3,1),
                         (null,12,3,1),
-						(null,13,3,1),
                         (null,14,3,1),
-                        (null,15,3,1);
+                        (null,15,3,1),
+						(null,16,3,1),
+                        (null,17,3,1),
+                        (null,18,3,1);
                          /* <Permisos para el SDE/>*/
                          /* <Permisos para el Egresado>*/
 insert into Permiso values
                         (null,5,2,1),
                         (null,8,2,1),
                         (null,10,2,1),
-                        (null,15,2,1); /* <Permisos para el Egresado/>*/
+                        (null,11,2,1),
+                        (null,12,2,1),
+                        (null,13,2,1),
+                        (null,18,2,1); /* <Permisos para el Egresado/>*/

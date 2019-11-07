@@ -17,6 +17,7 @@ import pe.edu.udaff.entities.Departamento;
 import pe.edu.udaff.entities.Egresado;
 import pe.edu.udaff.entities.Estadocivil;
 import pe.edu.udaff.entities.Modalidadestudio;
+import pe.edu.udaff.entities.Sectorinstitucion;
 import pe.edu.udaff.entities.Sexo;
 import pe.edu.udaff.entities.Situacionegresado;
 @Repository("egresadoDao")
@@ -107,6 +108,13 @@ public class EgresadoDaoImpl implements EgresadoDao{
 	public List<Modalidadestudio> getModalidades() {
 		// TODO Auto-generated method stub
 		return em.createQuery("from Modalidadestudio", Modalidadestudio.class)
+				.getResultList();
+	}
+
+	@Override
+	public List<Sectorinstitucion> getSectores() {
+		// TODO Auto-generated method stub
+		return em.createQuery("from Sectorinstitucion", Sectorinstitucion.class)
 				.getResultList();
 	}
 

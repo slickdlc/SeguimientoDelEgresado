@@ -13,6 +13,7 @@ import pe.edu.udaff.entities.Departamento;
 import pe.edu.udaff.entities.Egresado;
 import pe.edu.udaff.entities.Estadocivil;
 import pe.edu.udaff.entities.Modalidadestudio;
+import pe.edu.udaff.entities.Sectorinstitucion;
 import pe.edu.udaff.entities.Sexo;
 import pe.edu.udaff.entities.Situacionegresado;
 @Service("egresadoService")
@@ -79,6 +80,12 @@ public class EgresadoServiceImpl implements EgresadoService {
 	public List<Modalidadestudio> getModalidades() {
 		// TODO Auto-generated method stub
 		return egresadoDao.getModalidades();
+	}
+
+	@Override
+	public List<Sectorinstitucion> getSectores() {
+		// TODO Auto-generated method stub
+		return egresadoDao.getSectores();
 	}
 
 }

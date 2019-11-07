@@ -105,7 +105,7 @@ public class EmpleoDaoImpl implements EmpleoDao {
 	public List<Antecedentelaboral> getAllByUser(Integer id) {
 		return em.createQuery("Select al from Antecedentelaboral al"
 				+ " inner join al.egresado e"
-				+ " where e.id=:id", Antecedentelaboral.class).setParameter("id", id)
+				+ " where e.id=:id and al.estado=1", Antecedentelaboral.class).setParameter("id", id)
 				.getResultList();
 	}
 

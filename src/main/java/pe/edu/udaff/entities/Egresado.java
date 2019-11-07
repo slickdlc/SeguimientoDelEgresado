@@ -1,5 +1,5 @@
 package pe.edu.udaff.entities;
-// Generated 06-nov-2019 10:11:51 by Hibernate Tools 5.1.10.Final
+// Generated 06-nov-2019 23:39:51 by Hibernate Tools 5.1.10.Final
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -33,30 +33,30 @@ public class Egresado implements java.io.Serializable {
 	private Estadocivil estadocivil;
 	private Perfilacademico perfilacademico;
 	private Persona persona;
+	private Primerempleo primerempleo;
 	private Sexo sexo;
 	private Date fechaNacimiento;
 	private String numeroCelular;
 	private String email;
 	private String facebook;
-	private Set<Primerempleo> primerempleos = new HashSet<Primerempleo>(0);
 	private Set<Antecedentelaboral> antecedentelaborals = new HashSet<Antecedentelaboral>(0);
 
 	public Egresado() {
 	}
 
 	public Egresado(Direccion direccion, Estadocivil estadocivil, Perfilacademico perfilacademico, Persona persona,
-			Sexo sexo, Date fechaNacimiento, String numeroCelular, String email, String facebook,
-			Set<Primerempleo> primerempleos, Set<Antecedentelaboral> antecedentelaborals) {
+			Primerempleo primerempleo, Sexo sexo, Date fechaNacimiento, String numeroCelular, String email,
+			String facebook, Set<Antecedentelaboral> antecedentelaborals) {
 		this.direccion = direccion;
 		this.estadocivil = estadocivil;
 		this.perfilacademico = perfilacademico;
 		this.persona = persona;
+		this.primerempleo = primerempleo;
 		this.sexo = sexo;
 		this.fechaNacimiento = fechaNacimiento;
 		this.numeroCelular = numeroCelular;
 		this.email = email;
 		this.facebook = facebook;
-		this.primerempleos = primerempleos;
 		this.antecedentelaborals = antecedentelaborals;
 	}
 
@@ -92,7 +92,7 @@ public class Egresado implements java.io.Serializable {
 		this.estadocivil = estadocivil;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPerfilAcademico")
 	public Perfilacademico getPerfilacademico() {
 		return this.perfilacademico;
@@ -102,7 +102,7 @@ public class Egresado implements java.io.Serializable {
 		this.perfilacademico = perfilacademico;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona")
 	public Persona getPersona() {
 		return this.persona;
@@ -110,6 +110,16 @@ public class Egresado implements java.io.Serializable {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idPrimerEmpleo")
+	public Primerempleo getPrimerempleo() {
+		return this.primerempleo;
+	}
+
+	public void setPrimerempleo(Primerempleo primerempleo) {
+		this.primerempleo = primerempleo;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -157,15 +167,6 @@ public class Egresado implements java.io.Serializable {
 
 	public void setFacebook(String facebook) {
 		this.facebook = facebook;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "egresado")
-	public Set<Primerempleo> getPrimerempleos() {
-		return this.primerempleos;
-	}
-
-	public void setPrimerempleos(Set<Primerempleo> primerempleos) {
-		this.primerempleos = primerempleos;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "egresado")

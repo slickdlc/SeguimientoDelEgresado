@@ -17,7 +17,8 @@
 			<!-- /sidebar menu -->
 			<div class="content">
 				<div class="container-fluid">
-					<div class="row" th:classappend="${egresadoRequerido}? 'hidden'">
+					<div class="row"
+						th:classappend="${egresadoRequerido!=null || antecedenteRequerido!=null}? 'hidden'">
 						<th:block data-th-each="opcion : ${opcions}">
 							<div class="col-lg-4 col-md-6 col-sm-6"
 								th:if="${opcion.nombre=='Agregar Egresado'}">
@@ -39,6 +40,147 @@
 							</div>
 						</th:block>
 					</div>
+					<div class="row" id="rowAntecedente"
+						th:classappend="!${antecedenteRequerido}? 'hidden'"
+						th:if="${egresadoRequerido!=null || antecedenteRequerido!=null}">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-success">
+									<h4 class="card-title">Empleo</h4>
+									<p class="card-category" th:if="!${antecedenteRequerido}"></p>
+									<p class="card-category" th:if="${antecedenteRequerido}"
+										th:text="${'Editar empleo de '+antecedenteRequerido.egresado.persona.nombres + ' '+antecedenteRequerido.egresado.persona.apellidoPaterno }">Editar
+										Empleo</p>
+								</div>
+								<div class="card-body">
+									<form
+										th:action="${antecedenteRequerido}? ${'modificarAL?id='+antecedenteRequerido.idAntecedenteLaboral}"
+										id="formAntecedente" method="post">
+										<input type="hidden" id="idEgresado"
+											th:value="${egresadoRequerido}? ${egresadoRequerido.idEgresado}:${antecedenteRequerido.egresado.idEgresado}">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"><i
+															class="fas fa-building fa-fw"></i></span>
+													</div>
+													<select class="form-control" id="sectorInstitucion"
+														name="sectorInstitucion" required>
+														<option value="">Sector de la Institución</option>
+														<th:block data-th-each="s:${sectores}">
+															<option
+																th:selected="${antecedenteRequerido}? ${antecedenteRequerido.sectorinstitucion.idSectorInstitucion==s.idSectorInstitucion}"
+																th:value="${s.idSectorInstitucion}"
+																th:text="${s.nombreSectorInstitucion}"></option>
+														</th:block>
+													</select>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> Tiene relación con
+															su formación <i class="fas fa-question fa-fw"> </i>
+														</span>
+													</div>
+													<div class="btn-group" id="btnGroup" role="group">
+														<button type="button" id="btnSi" class="btn "th:classappend="${antecedenteRequerido}? (${antecedenteRequerido.relacionadoConFormacion==1}? 'btn-primary':'btn-secondary'):'btn-secondary'">Sí</button>
+														<button type="button" id="btnNo" class="btn "th:classappend="${antecedenteRequerido}? (${antecedenteRequerido.relacionadoConFormacion==0}? 'btn-primary':'btn-secondary'):'btn-secondary'">No</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-briefcase fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="cargoEmpleo"
+														th:value="${antecedenteRequerido}? ${antecedenteRequerido.cargoEmpleo}"
+														name="cargoEmpleo" placeholder="Cargo en la institución"
+														required type="text" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-industry fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="nombreInstitucion"
+														th:value="${antecedenteRequerido}? ${antecedenteRequerido.nombreInstitucion}"
+														name="nombreInstitucion"
+														placeholder="Nombre de la Institución" required
+														type="text" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-calendar-check fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="fechaInicio"
+														th:value="${antecedenteRequerido}? ${antecedenteRequerido.fechaInicio}"
+														name="fechaInicio" placeholder="Fecha Inicio del contrato"
+														required type="date" />
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-calendar-times fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="fechaTermino"
+														th:value="${antecedenteRequerido}? ${antecedenteRequerido.fechaTermino}"
+														name="fechaTermino" placeholder="Fecha final del contrato"
+														required type="date" />
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text"> <i
+															class="fas fa-file-contract	 fa-fw"> </i>
+														</span>
+													</div>
+													<input class="form-control" autocomplete="off"
+														id="tipoContrato"
+														th:value="${antecedenteRequerido}? ${antecedenteRequerido.tipoContrato}"
+														name="tipoContrato" placeholder="Tipo de contrato"
+														required type="text" />
+												</div>
+											</div>
+										</div>
+										<br />
+										<div id="divMessageAntecedente"></div>
+										<div class="row">
+											<div class="col-sm-2">
+												<button id="btnGuardarAntecedente" class="btn btn-success"
+													type="submit">Guardar</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div class="row" th:classappend="!${egresadoRequerido}? 'hidden'"
 						id="rowEgresado">
 						<div class="col-lg-12 col-md-12">
@@ -51,9 +193,27 @@
 									<form
 										th:action="${egresadoRequerido}? ${'modificar?id='+egresadoRequerido.idEgresado}"
 										id="formEgresado" method="post">
+
+										<th:block th:if="${egresadoRequerido}">
+											<div class="row  justify-content-end">
+												<!-- 												<button th:if="${egresadoRequerido.primerempleo==null}" -->
+												<!-- 													id="btnPrimerEmpleo" class=" btn btn-danger" -->
+												<!-- 													type="button"> -->
+												<!-- 													<i class="fas fa-exclamation-triangle fa-fw"></i> Añadir -->
+												<!-- 													Primer Empleo -->
+												<!-- 												</button> -->
+												<button id="btnAntecedenteLaboral" class="btn"
+													th:attrappend="class= ${egresadoRequerido.antecedentelaborals.size()!=0}? ' btn-success' : ' btn-warning'"
+													type="button">
+													<i class="fas fa-fw"
+														th:attrappend="class= ${egresadoRequerido.antecedentelaborals.size()!=0}? ' fa-plus' : ' fa-exclamation-triangle '"></i>
+													Agregar Empleo
+												</button>
+											</div>
+										</th:block>
 										<input type="hidden" />
 										<legend> Datos personales </legend>
-											<hr/>
+										<hr />
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="input-group">
@@ -97,7 +257,7 @@
 											</div>
 										</div>
 										<div class="row">
-										<div class="col-sm-6">
+											<div class="col-sm-6">
 												<div class="input-group">
 													<div class="input-group-prepend">
 														<span class="input-group-text"> <i
@@ -117,13 +277,13 @@
 															class="fa fa-birthday-cake fa-fw"> </i>
 														</span>
 													</div>
-													<input class="form-control" autocomplete="off" id="fechaNacimiento"
-														name="fechaNacimiento" 
+													<input class="form-control" autocomplete="off"
+														id="fechaNacimiento" name="fechaNacimiento"
 														th:value="${egresadoRequerido}? ${egresadoRequerido.fechaNacimiento}"
 														placeholder="Fecha de Nacimiento" required type="date" />
 												</div>
 											</div>
-											
+
 										</div>
 										<div class="row">
 											<div class="col-sm-6">
@@ -161,9 +321,9 @@
 												</div>
 											</div>
 										</div>
-											<br/>
+										<br />
 										<legend>Dirección</legend>
-										<hr/>
+										<hr />
 										<div class="row">
 											<div class="col-sm-4">
 												<div class="input-group">
@@ -238,9 +398,9 @@
 												</div>
 											</div>
 										</div>
-											<br/>
+										<br />
 										<legend class="mt-3"> Informacion de contacto </legend>
-										<hr/>
+										<hr />
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="input-group">
@@ -248,9 +408,9 @@
 														<span class="input-group-text"> <b> @ </b>
 														</span>
 													</div>
-													<input class="form-control" id="email"
-														name="email" autocomplete="off"
-														placeholder="Correo Electrónico" required type="email"
+													<input class="form-control" id="email" name="email"
+														autocomplete="off" placeholder="Correo Electrónico"
+														required type="email"
 														th:value="${egresadoRequerido}? ${egresadoRequerido.email}" />
 												</div>
 											</div>
@@ -264,8 +424,8 @@
 														</span>
 													</div>
 													<input class="form-control" id="numeroCelular"
-														name="numeroCelular" autocomplete="off" placeholder="Celular"
-														required type="number"
+														name="numeroCelular" autocomplete="off"
+														placeholder="Celular" required type="number"
 														th:value="${egresadoRequerido}? ${egresadoRequerido.numeroCelular}" />
 												</div>
 											</div>
@@ -283,9 +443,9 @@
 												</div>
 											</div>
 										</div>
-											<br/>
+										<br />
 										<legend class="mt-3">Perfil Académico</legend>
-										<hr/>
+										<hr />
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="input-group">
@@ -353,13 +513,14 @@
 														<span class="input-group-text"><i
 															class="fas fa-route fa-fw"></i></span>
 													</div>
-													<select class="form-control" id="modalidadEstudio" name="modalidadEstudio"
-														required>
+													<select class="form-control" id="modalidadEstudio"
+														name="modalidadEstudio" required>
 														<option value="">Desplegar</option>
 														<th:block data-th-each="me:${modalidades}">
 															<option
 																th:selected="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.modalidadestudio.idModalidadEstudio==me.idModalidadEstudio}"
-																th:value="${me.idModalidadEstudio}" th:text="${me.nombreModalidadEstudio + ' ' +me.rangoFecha }"></option>
+																th:value="${me.idModalidadEstudio}"
+																th:text="${me.nombreModalidadEstudio + ' ' +me.rangoFecha }"></option>
 														</th:block>
 													</select>
 												</div>
@@ -370,21 +531,22 @@
 														<span class="input-group-text"><i
 															class="fas fa-route fa-fw"></i></span>
 													</div>
-													<select class="form-control" id="situacionEgresado" name="Situacionegresado"
-														required>
+													<select class="form-control" id="situacionEgresado"
+														name="Situacionegresado" required>
 														<option value="">Desplegar</option>
 														<th:block data-th-each="se:${situacionEgresados}">
 															<option
 																th:selected="${egresadoRequerido}? ${egresadoRequerido.perfilacademico.situacionegresado.idSituacionEgresado==se.idSituacionEgresado}"
-																th:value="${se.idSituacionEgresado}" th:text="${se.nombreSituacionEgresado}"></option>
+																th:value="${se.idSituacionEgresado}"
+																th:text="${se.nombreSituacionEgresado}"></option>
 														</th:block>
 													</select>
 												</div>
 											</div>
 										</div>
-										<br/>
+										<br />
 										<legend>Información del Usuario</legend>
-										<hr/>
+										<hr />
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="input-group">
@@ -406,8 +568,8 @@
 															class="fas fa-lock fa-fw"> </i>
 														</span>
 													</div>
-													<input class="form-control" autocomplete="off"
-														id="pass" name="pass" required
+													<input class="form-control" autocomplete="off" id="pass"
+														name="pass" required
 														th:value="${egresadoRequerido}? ${'Confidencial'}"
 														placeholder="Contraseña" type="password" />
 												</div>
@@ -426,7 +588,66 @@
 							</div>
 						</div>
 					</div>
-					<div class="row" th:classappend="${egresadoRequerido}? 'hidden'"
+					<div class="row" th:if="${egresadoRequerido}">
+						<div class="col-lg-12 col-md-12">
+							<div class="card">
+								<div class="card-header card-header-warning">
+									<h4 class="card-title">Antecedente Laboral</h4>
+									<p class="card-category"
+										th:text="${'Lista de todos los trabajos de '+ egresadoRequerido.persona.nombres}"></p>
+								</div>
+								<div class="card-body table-responsive" id="scrolltable">
+									<table id="tblAntecendentes" class="table w-100">
+										<thead class="text-warning">
+											<tr>
+												<th>Sector</th>
+												<th>Institución</th>
+												<th>Cargo Ocupado</th>
+												<th>Inicio del contrato</th>
+												<th>Fin del contrato</th>
+												<th>Opcion</th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block
+												data-th-each="al : ${egresadoRequerido.antecedentelaborals}"
+												th:remove="tag">
+												<tr th:if="${al.estado!=0}">
+													<td
+														th:text="${al.sectorinstitucion.nombreSectorInstitucion}"></td>
+													<td th:text="${al.nombreInstitucion}"></td>
+													<td th:text="${al.cargoEmpleo}"></td>
+													<td th:text="${al.fechaInicio}"></td>
+													<td th:text="${al.fechaTermino}"></td>
+													<td class="td-actions" id="options"><th:block
+															data-th-each="o: ${opcions}" th:remove="tag">
+															<th:block data-th-if="${o.submodulo.nombre=='Egresados'}"
+																th:remove="tag">
+																<th:block data-th-if="${o.nombre=='Editar Antecedente'}">
+																	<button type="button" class="btn btn-success"
+																		th:attr="onclick=${'obtenerAntecedente(this,event,'+al.idAntecedenteLaboral+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+																<th:block
+																	data-th-if="${o.nombre=='Eliminar Antecedente'}">
+																	<button type="button" class="btn btn-danger"
+																		th:attr="onclick=${'eliminarAntecedente(this,event,'+al.idAntecedenteLaboral+')'}">
+																		<span th:class="${o.icon}"></span>
+																	</button>
+																</th:block>
+															</th:block>
+														</th:block></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row"
+						th:classappend="${egresadoRequerido!=null || antecedenteRequerido!=null}? 'hidden'"
 						id="lista">
 						<div class="col-lg-12 col-md-12">
 							<div class="card">

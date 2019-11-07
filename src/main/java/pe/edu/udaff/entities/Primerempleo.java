@@ -1,7 +1,9 @@
 package pe.edu.udaff.entities;
-// Generated 06-nov-2019 10:11:51 by Hibernate Tools 5.1.10.Final
+// Generated 06-nov-2019 23:39:51 by Hibernate Tools 5.1.10.Final
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,7 +25,6 @@ import javax.persistence.TemporalType;
 public class Primerempleo implements java.io.Serializable {
 
 	private Integer idPrimerEmpleo;
-	private Egresado egresado;
 	private Sectorinstitucion sectorinstitucion;
 	private Tipoaccesoalempleo tipoaccesoalempleo;
 	private Byte trabajoDuranteEstudios;
@@ -36,15 +38,15 @@ public class Primerempleo implements java.io.Serializable {
 	private Byte estado;
 	private Integer mesesAntesDelPrimerEmpleo;
 	private String detalleAccesoAlEmpleo;
+	private Set<Egresado> egresados = new HashSet<Egresado>(0);
 
 	public Primerempleo() {
 	}
 
-	public Primerempleo(Egresado egresado, Sectorinstitucion sectorinstitucion, Tipoaccesoalempleo tipoaccesoalempleo,
+	public Primerempleo(Sectorinstitucion sectorinstitucion, Tipoaccesoalempleo tipoaccesoalempleo,
 			Byte trabajoDuranteEstudios, Byte relacionadoConFormacion, String nombreInstitucion, String cargoEmpleo,
 			Date fechaInicio, Date fechaTermino, String tipoContrato, String nombreDireccion, Byte estado,
-			Integer mesesAntesDelPrimerEmpleo, String detalleAccesoAlEmpleo) {
-		this.egresado = egresado;
+			Integer mesesAntesDelPrimerEmpleo, String detalleAccesoAlEmpleo, Set<Egresado> egresados) {
 		this.sectorinstitucion = sectorinstitucion;
 		this.tipoaccesoalempleo = tipoaccesoalempleo;
 		this.trabajoDuranteEstudios = trabajoDuranteEstudios;
@@ -58,6 +60,7 @@ public class Primerempleo implements java.io.Serializable {
 		this.estado = estado;
 		this.mesesAntesDelPrimerEmpleo = mesesAntesDelPrimerEmpleo;
 		this.detalleAccesoAlEmpleo = detalleAccesoAlEmpleo;
+		this.egresados = egresados;
 	}
 
 	@Id
@@ -70,16 +73,6 @@ public class Primerempleo implements java.io.Serializable {
 
 	public void setIdPrimerEmpleo(Integer idPrimerEmpleo) {
 		this.idPrimerEmpleo = idPrimerEmpleo;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idEgresado")
-	public Egresado getEgresado() {
-		return this.egresado;
-	}
-
-	public void setEgresado(Egresado egresado) {
-		this.egresado = egresado;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -201,6 +194,15 @@ public class Primerempleo implements java.io.Serializable {
 
 	public void setDetalleAccesoAlEmpleo(String detalleAccesoAlEmpleo) {
 		this.detalleAccesoAlEmpleo = detalleAccesoAlEmpleo;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "primerempleo")
+	public Set<Egresado> getEgresados() {
+		return this.egresados;
+	}
+
+	public void setEgresados(Set<Egresado> egresados) {
+		this.egresados = egresados;
 	}
 
 }

@@ -113,23 +113,6 @@ dni varchar(8),
 idUsuario int,
 constraint fk_pers_user foreign key (idUsuario) references Usuario(idUsuario)
 );
-create table Egresado(
-idEgresado int auto_increment primary key,
-idPersona int,
-fechaNacimiento date,
-idSexo int,
-idEstadoCivil int,
-numeroCelular varchar(9),
-idDireccion int,
-email varchar(120),
-facebook varchar(120),
-idPerfilAcademico int,
-constraint fk_egre_pers foreign key (idPersona) references Persona(idPersona),
-CONSTRAINT pk_egr_sex FOREIGN KEY (idSexo) REFERENCES Sexo(idSexo),
-CONSTRAINT pk_egr_dir FOREIGN KEY (idDireccion) REFERENCES Direccion(idDireccion),
-CONSTRAINT pk_egr_peraca FOREIGN KEY (idPerfilAcademico) REFERENCES PerfilAcademico(idPerfilAcademico),
-CONSTRAINT pk_egr_esci FOREIGN KEY (idEstadoCivil) REFERENCES EstadoCivil(idEstadoCivil)
-);
 
 
 create table SectorInstitucion(
@@ -143,7 +126,6 @@ nombreTipoAccesoAlEmpleo varchar(50)
 );
 create table PrimerEmpleo(
 idPrimerEmpleo int auto_increment primary key,
-idEgresado int,
 trabajoDuranteEstudios tinyint(4),
 relacionadoConFormacion tinyint(4),
 nombreInstitucion varchar(50),
@@ -157,10 +139,29 @@ estado tinyint(4),
 mesesAntesDelPrimerEmpleo int,
 idTipoAccesoAlEmpleo int,
 detalleAccesoAlEmpleo varchar(200),
-constraint fk_primempl_egre foreign key (idEgresado)references Egresado(idEgresado),
 constraint fk_primempl_tipacc foreign key (idTipoAccesoAlEmpleo) references TipoAccesoAlEmpleo(idTipoAccesoAlEmpleo),
 constraint fk_primempl_secins foreign key (idSectorInstitucion) references SectorInstitucion(idSectorInstitucion)
 );
+create table Egresado(
+idEgresado int auto_increment primary key,
+idPersona int,
+fechaNacimiento date,
+idSexo int,
+idEstadoCivil int,
+numeroCelular varchar(9),
+idDireccion int,
+email varchar(120),
+facebook varchar(120),
+idPerfilAcademico int,
+idPrimerEmpleo int,
+constraint fk_egre_pers foreign key (idPersona) references Persona(idPersona),
+constraint fk_egre_priempl foreign key (idPrimerEmpleo) references PrimerEmpleo(idPrimerEmpleo),
+CONSTRAINT pk_egr_sex FOREIGN KEY (idSexo) REFERENCES Sexo(idSexo),
+CONSTRAINT pk_egr_dir FOREIGN KEY (idDireccion) REFERENCES Direccion(idDireccion),
+CONSTRAINT pk_egr_peraca FOREIGN KEY (idPerfilAcademico) REFERENCES PerfilAcademico(idPerfilAcademico),
+CONSTRAINT pk_egr_esci FOREIGN KEY (idEstadoCivil) REFERENCES EstadoCivil(idEstadoCivil)
+);
+
 create table AntecedenteLaboral(
 idAntecedenteLaboral int auto_increment primary key,
 idEgresado int,

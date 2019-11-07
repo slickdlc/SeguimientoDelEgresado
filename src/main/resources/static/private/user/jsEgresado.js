@@ -29,6 +29,34 @@ $(document)
 											}
 										}
 									});
+					$('#tblAntecendentes')
+					.dataTable(
+							{
+								"language" : {
+									"sProcessing" : "Procesando...",
+									"sLengthMenu" : "Mostrar _MENU_ registros",
+									"sZeroRecords" : "No se encontraron resultados",
+									"sEmptyTable" : "Ningún dato disponible en esta tabla",
+									"sInfo" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+									"sInfoEmpty" : "Mostrando registros del 0 al 0 de un total de 0 registros",
+									"sInfoFiltered" : "(filtrado de un total de _MAX_ registros)",
+									"sInfoPostFix" : "",
+									"sSearch" : "Buscar:",
+									"sUrl" : "",
+									"sInfoThousands" : ",",
+									"sLoadingRecords" : "Cargando...",
+									"oPaginate" : {
+										"sFirst" : "Primero",
+										"sLast" : "Último",
+										"sNext" : "Siguiente",
+										"sPrevious" : "Anterior"
+									},
+									"oAria" : {
+										"sSortAscending" : ": Activar para ordenar la columna de manera ascendente",
+										"sSortDescending" : ": Activar para ordenar la columna de manera descendente"
+									}
+								}
+							});
 				});
 
 function cambiarEstado(element, e, id) {
@@ -139,10 +167,6 @@ $('#btnGuardar').click(
 						email: $('#email').val(),
 						facebook: $('#facebook').val()
 					}
-					if (editar) {
-						egresado.idEgresado = $('#idEgresado').val();
-					}
-
 					$.ajax({
 						url : $('#formEgresado').attr("action"),
 						data : JSON.stringify(egresado),
@@ -163,6 +187,108 @@ $('#btnGuardar').click(
 $('#dni').change(function(e){
 	$('#user').val($('#dni').val());
 });
+$('#btnAntecedenteLaboral').click(function(e){
+	e.preventDefault();
+	$('#formAntecedente').trigger("reset");
+	$('#formAntecedente').attr('action', '/admin/egresado/insertarAL');
+	$('#btnGuardarAntecedente').text("Agregar");
+
+	$('#rowAntecedente').find('.card-title').text("Egresado");
+	$('#rowAntecedente').find('.card-category').text("Agregar un empleo");
+	
+	var rowAntecedente = $('#rowAntecedente');
+	if (rowAntecedente.hasClass("hidden")) {
+		$(rowAntecedente).removeClass("hidden");
+	} else {
+		$(rowAntecedente).addClass("hidden");
+	}
+});
+function cambiarDeColor(element){
+	var btn= $(element);
+	if(!$(btn).hasClass("btn-primary")){
+		$(btn).removeClass("btn-secondary");
+		$(btn).addClass("btn-primary");
+	}else{
+		$(btn).removeClass("btn-primary");
+		$(btn).addClass("btn-secondary");
+	}
+}
+$('#btnSi').click(function(e){
+	if($('#btnNo').hasClass("btn-primary")){
+		cambiarDeColor($('#btnNo'));
+	}
+	cambiarDeColor(this);
+});
+$('#btnNo').click(function(e){
+	if($('#btnSi').hasClass("btn-primary")){
+		cambiarDeColor($('#btnSi'));
+	}
+	cambiarDeColor(this);
+});
 function obtener(element,e,id){
 	location.href="/admin/egresado/informacion?id="+id;
 }
+function obtenerAntecedente(element,e,id){
+	location.href="/admin/egresado/antecedente?id="+id;
+}
+function eliminarAntecedente(element,e,id){
+	$.ajax({
+		url : "/admin/egresado/eliminarAL?id=" + id,
+		type : "POST",
+		dataType : 'json',
+		contentType : 'application/json',
+		success : function(dataResponse) {
+			$(element).parents('tr').remove();
+		}
+	});
+	e.preventDefault();
+
+}
+$('#btnGuardarAntecedente').click(
+		function(e) {
+			$("#formAntecedente").validate({
+				submitHandler : function(form) {
+					var editar = false;
+					if ($('#btnGuardarAntecedente').text() == "Guardar") {
+						editar = true;
+					} else if ($('#btnGuardarAntecedente').text() == "Agregar") {
+						editar = false;
+					} else {
+						return;
+					}
+					var rela=0;
+					if($('#btnSi').hasClass("btn-primary")){
+						rela=1;
+					}
+					var antecedente = {
+						egresado:{
+							idEgresado: $('#idEgresado').val()
+						},
+						sectorinstitucion:{
+							idSectorInstitucion:$('#sectorInstitucion').val()
+						},
+						relacionadoConFormacion:rela,
+						nombreInstitucion:$('#nombreInstitucion').val(),
+						cargoEmpleo:$('#cargoEmpleo').val(),
+						fechaInicio:$('#fechaInicio').val(),
+						fechaTermino:$('#fechaTermino').val(),
+						tipoContrato:$('#tipoContrato').val(),
+						estado:1
+					}
+					$.ajax({
+						url : $('#formAntecedente').attr("action"),
+						data : JSON.stringify(antecedente),
+						type : "POST",
+						dataType : 'json',
+						contentType : 'application/json',
+						success : function(dataResponse) {
+							if (jsonToDivError(dataResponse,
+									'#rowAntecedente #divMessageAntecedente', "")) {
+								$('#lista').addClass("hidden");
+							}
+						}
+					});
+					e.preventDefault();
+				}
+			});
+		});

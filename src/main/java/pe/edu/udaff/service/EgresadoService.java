@@ -7,6 +7,7 @@ import pe.edu.udaff.entities.Departamento;
 import pe.edu.udaff.entities.Egresado;
 import pe.edu.udaff.entities.Estadocivil;
 import pe.edu.udaff.entities.Modalidadestudio;
+import pe.edu.udaff.entities.Sectorinstitucion;
 import pe.edu.udaff.entities.Sexo;
 import pe.edu.udaff.entities.Situacionegresado;
 
@@ -21,4 +22,5 @@ public interface EgresadoService {
 	public List<Carrera> getCarreras();
 	public List<Situacionegresado> getSituaciones();
 	public List<Modalidadestudio> getModalidades();
+	public List<Sectorinstitucion> getSectores();
 }
