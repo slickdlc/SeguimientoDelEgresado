@@ -118,4 +118,14 @@ public class EgresadoDaoImpl implements EgresadoDao{
 				.getResultList();
 	}
 
+	@Override
+	public Egresado getByUsername(String username) {
+		// TODO Auto-generated method stub
+		return em.createQuery("Select e from Egresado e "
+				+ "inner join e.persona p "
+				+ "inner join p.usuario u "
+				+ "where u.usuario=:username", Egresado.class).setParameter("username", username)
+				.getSingleResult();
+	}
+
 }

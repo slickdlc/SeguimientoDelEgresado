@@ -23,17 +23,28 @@
 							<th:block data-th-each="submodulo:${modulo.submodulos}"
 								th:remove="tag">
 								<th:block
-									data-th-if="${modulo.idModulo == submodulo.modulo.idModulo && submodulo.nombre!= 'Cupon' && submodulo.nombre!= 'Oferta'}">
-									<li class="nav-item "><a class="nav-link"
-										th:href="@{${submodulo.url}}"><span class="sidebar-mini"
-											th:text="${submodulo.nombre.substring(0,1)}">
-										</span> <span class="sidebar-normal"
-											th:text="${submodulo.nombre}"></span></a></li>
+									data-th-if="${isEgresado}">
+									<th:block
+										data-th-if="${modulo.idModulo == submodulo.modulo.idModulo && submodulo.nombre!='Egresados'}">
+										<li class="nav-item "><a class="nav-link"
+											th:href="@{${submodulo.url}}"><span class="sidebar-mini"
+												th:text="${submodulo.nombre.substring(0,1)}"> </span> <span
+												class="sidebar-normal" th:text="${submodulo.nombre}"></span></a></li>
+									</th:block>
+								</th:block>
+								<th:block
+									data-th-if="!${isEgresado}">
+									<th:block
+										data-th-if="${modulo.idModulo == submodulo.modulo.idModulo && submodulo.nombre!='Mi Perfil' }">
+										<li class="nav-item "><a class="nav-link"
+											th:href="@{${submodulo.url}}"><span class="sidebar-mini"
+												th:text="${submodulo.nombre.substring(0,1)}"> </span> <span
+												class="sidebar-normal" th:text="${submodulo.nombre}"></span></a></li>
+									</th:block>
 								</th:block>
 							</th:block>
 						</ul>
-					</div>
-					</li>
+					</div></li>
 			</th:block>
 		</ul>
 	</div>

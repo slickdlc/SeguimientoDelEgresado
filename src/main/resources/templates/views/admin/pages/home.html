@@ -21,20 +21,58 @@
 			<!-- /sidebar menu -->
 			<div class="content">
 				<div class="container-fluid">
-					<div class="card bg-primary">
+				<div class="row">
+					<th:block data-th-each="n : ${noticias}" th:remove="tag">
+						
+							<div class="col-sm-6">
+								<div class="card noticia">
+									<div class="card-body">
+										<h5 class="card-category card-category-social">
+											<a href=""></a><i class="fab fa-facebook-f"></i> Faceboook
+										</h5>
+										<h4 class="card-title">
+											<a href="#" th:text="${n.descripcionNoticia}"></a> <br>
+											<a href="#"> <img class="mx-auto" alt="..."
+												th:src="${n.urlFoto}" height="200px"></a>
+
+										</h4>
+										<div class="card-stats">
+											<div class="author">
+												<a href="#"> <img
+													th:src="@{/private/img/logo/LOGOCESDEE.png}" alt="..."
+													class="avatar img-raised"> <span
+													th:if="${n.usuario.personas.size()!=0}"
+													th:text="${n.usuario.personas[0].nombres +' '+ n.usuario.personas[0].apellidoPaterno}"></span>
+												</a>
+											</div>
+											<div class="stats ml-auto">
+												<i class="fas fa-heart fa-fw"></i> <i
+													class="fas fa-share-alt fa-fw"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+
+					</th:block>
+
+					<div th:if="${noticias.size()==0}" class="card bg-primary">
 						<div class="card-body">
 							<h5 class="card-category card-category-social">
-								<i class="fas fa-user"></i> <span  th:text="${nombreCompleto}"></span>
+								<i class="fas fa-user"></i> <span th:text="${nombreCompleto}"></span>
 							</h5>
 							<h4 class="card-title">
 								<p>Bienvenido!</p>
 							</h4>
 						</div>
 					</div>
+					</div>
 				</div>
 			</div>
 
 			<div th:replace="views/admin/layout/layout :: footer" th:remove="tag"></div>
+			<script type="text/javascript" th:src="@{/private/user/jsHome.js}"></script>
 		</div>
 	</div>
 	<!-- /footer content -->

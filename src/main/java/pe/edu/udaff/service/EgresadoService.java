@@ -13,6 +13,7 @@ import pe.edu.udaff.entities.Situacionegresado;
 
 public interface EgresadoService {
 	public Egresado getById(Integer id);
+	public Egresado getByUsername(String username);
 	public List<Egresado> getAll();
 	public boolean modify(Egresado egresado);
 	public boolean insert(Egresado egresado);

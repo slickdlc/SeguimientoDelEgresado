@@ -16,6 +16,7 @@ import pe.edu.udaff.entities.Modalidadestudio;
 import pe.edu.udaff.entities.Sectorinstitucion;
 import pe.edu.udaff.entities.Sexo;
 import pe.edu.udaff.entities.Situacionegresado;
+
 @Service("egresadoService")
 @Transactional
 public class EgresadoServiceImpl implements EgresadoService {
@@ -26,6 +27,12 @@ public class EgresadoServiceImpl implements EgresadoService {
 	public Egresado getById(Integer id) {
 		// TODO Auto-generated method stub
 		return egresadoDao.getById(id);
+	}
+
+	@Override
+	public Egresado getByUsername(String username) {
+		// TODO Auto-generated method stub
+		return egresadoDao.getByUsername(username);
 	}
 
 	@Override
