@@ -186,8 +186,13 @@ create table Propuesta(
 idPropuesta int auto_increment primary key,
 idTipoPropuesta int,
 descripcionPropuesta varchar(200),
+idUsuario int,
+fecha date,
+constraint fk_prop_user foreign key (idUsuario)references Usuario(idUsuario),
 constraint fk_prop_tipprop foreign key (idTipoPropuesta)references TipoPropuesta(idTipoPropuesta)
+
 );
+
 create table Noticia(
 idNoticia int auto_increment primary key,
 descripcionNoticia varchar(255),
