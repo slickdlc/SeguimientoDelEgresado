@@ -30,34 +30,6 @@ $(document)
 										}
 									});
 				});
-
-function cambiarEstado(element, e, id) {
-	$.ajax({
-		url : "propuesta/cambiarEstado?id=" + id,
-		type : "POST",
-		dataType : 'json',
-		contentType : 'application/json',
-		success : function(dataResponse) {
-			var colorARemover;
-			var colorAPoner;
-			var text;
-			if (dataResponse == "1") {
-				colorARemover = "text-danger";
-				colorAPoner = "text-success";
-				text = "Activo";
-			} else {
-				colorARemover = "text-success";
-				colorAPoner = "text-danger";
-				text = "Inactivo";
-			}
-			var estado = $('#estado' + id);
-			$(estado).text(text);
-			$(estado).removeClass(colorARemover);
-			$(estado).addClass(colorAPoner);
-		}
-	});
-	e.preventDefault();
-}
 $('#btnAgregar').click(function(e) {
 	e.preventDefault();
 	$('#formPropuesta').trigger("reset");
@@ -87,60 +59,11 @@ $('#btnGuardar').click(
 					} else {
 						return;
 					}
-					
 					var propuesta = {
-						direccion:{
-							departamento:{
-								idDepartamento:$('#departamento').val()
-							},
-							nombreDireccion:$('#direccion').val(),
-							referenciaDireccion:$('#refDir').val(),
-							nombreProvincia:$('#provincia').val(),
-							nombreDistrito:$('#distrito').val()
+						tipopropuesta:{
+							idTipoPropuesta:$('#tipoPropuesta').val(),
 						},
-						estadocivil:{
-							idEstadoCivil:$('#estadoCivil').val()
-						},
-						perfilacademico:{
-							motivosituacionpropuesta:null,
-							carrera:{
-								idCarrera:$('#carrera').val()
-							},
-							modalidadestudio:{
-								idModalidadEstudio:$('#modalidadEstudio').val()
-							},
-							situacionpropuesta:{
-								idSituacionPropuesta:$('#situacionPropuesta').val()
-							},
-							anoIngreso:$('#anoIngreso').val(),
-							anoEgreso:$('#anoEgreso').val(),
-							anoTitulacion:$('#anoTitulacion').val()
-							
-						},
-						persona:{
-							usuario:{
-								perfil : {
-									idPerfil : 2
-								},
-								usuario:$('#user').val(),
-								pass : $('#pass').val(),
-								estado : 1
-							},
-							nombres:$('#nombres').val(),
-							apellidoPaterno:$('#apellidoPaterno').val(),
-							apellidoMaterno:$('#apellidoMaterno').val(),
-							dni:$('#dni').val()
-						},
-						sexo:{
-							idSexo:$('#sexo').val()
-						},
-						fechaNacimiento: $('#fechaNacimiento').val(),
-						numeroCelular: $('#numeroCelular').val(),
-						email: $('#email').val(),
-						facebook: $('#facebook').val()
-					}
-					if (editar) {
-						propuesta.idPropuesta = $('#idPropuesta').val();
+						descripcionPropuesta:$('#descripcionPropuesta').val()
 					}
 
 					$.ajax({

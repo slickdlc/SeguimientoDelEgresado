@@ -56,26 +56,29 @@
 												<div class="input-group">
 													<div class="input-group-prepend">
 														<span class="input-group-text"> <i
-															class="fa fa-male fa-fw"> </i>
+															class="fas fa-thumbtack fa-fw"> </i>
 														</span>
 													</div>
-													<input class="form-control" autocomplete="off"
-														id="apellidoPaterno" name="apellidoPaterno"
-														th:value="${propuestaRequerido}? ${propuestaRequerido.persona.apellidoPaterno}"
-														placeholder="Apellido paterno" required type="text" />
+													<select class="form-control" id="tipoPropuesta"
+														name="tipoPropuesta" required>
+														<option value="">Tipo de Propuesta</option>
+														<th:block data-th-each="t:${tipos}">
+															<option th:value="${t.idTipoPropuesta}"
+																th:text="${t.nombreTipoPropuesta}"></option>
+														</th:block>
+													</select>
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<div class="input-group">
 													<div class="input-group-prepend">
 														<span class="input-group-text"> <i
-															class="fa fa-female fa-fw"> </i>
+															class="fas fa-tasks fa-fw"> </i>
 														</span>
 													</div>
 													<input class="form-control" autocomplete="off"
-														id="apellidoMaterno" name="apellidoMaterno"
-														th:value="${propuestaRequerido}? ${propuestaRequerido.persona.apellidoMaterno}"
-														placeholder="Apellido materno" required type="text" />
+														id="descripcionPropuesta" name="descripcionPropuesta"
+														placeholder="Describe la propuesta" required type="text" />
 												</div>
 											</div>
 										</div>
@@ -92,64 +95,46 @@
 							</div>
 						</div>
 					</div>
-					<div class="row" th:classappend="${propuestaRequerido}? 'hidden'"
-						id="lista">
-						<div class="col-lg-12 col-md-12">
-							<div class="card">
-								<div class="card-header card-header-warning">
-									<h4 class="card-title">Propuestas</h4>
-									<p class="card-category">Lista de todos los propuestas</p>
-								</div>
-								<div class="card-body table-responsive" id="scrolltable">
+					<th:block data-th-each="opcion : ${opcions}">
+						<div th:if="${opcion.nombre=='Listar Propuestas'}">
+							<div class="row" th:classappend="${propuestaRequerido}? 'hidden'"
+								id="lista">
+								<div class="col-lg-12 col-md-12">
+									<div class="card">
+										<div class="card-header card-header-warning">
+											<h4 class="card-title">Propuestas</h4>
+											<p class="card-category">Lista de todas los propuestas</p>
+										</div>
+										<div class="card-body table-responsive" id="scrolltable">
 
-									<table id="tblPropuesta" class="table w-100">
-										<thead class="text-warning">
-											<tr>
-												<th>Codigo</th>
-												<th>Nombres</th>
-												<th>Apellido Paterno</th>
-												<th>Usuario</th>
-												<th>Estado</th>
-												<th>Opcion</th>
-											</tr>
-										</thead>
-										<tbody>
-											<th:block data-th-each="e : ${propuestas}" th:remove="tag">
-												<tr>
-													<td th:text="${e.idPropuesta}"></td>
-													<td th:text="${e.persona.nombres}"></td>
-													<td th:text="${e.persona.apellidoPaterno}"></td>
-													<td th:text="${e.persona.usuario.usuario}"></td>
-													<td th:id="${'estado'+e.idPropuesta}"
-														th:class="${e.persona.usuario.estado==1? 'text-success':'text-danger'}"
-														th:text="${e.persona.usuario.estado==1? 'Activo':'Inactivo'}"></td>
-													<td class="td-actions" id="options"><th:block
-															data-th-each="o: ${opcions}" th:remove="tag">
-															<th:block data-th-if="${o.submodulo.nombre=='Propuestas'}"
-																th:remove="tag">
-																<th:block data-th-if="${o.nombre=='Editar Propuesta'}">
-																	<button type="button" class="btn btn-success"
-																		th:attr="onclick=${'obtener(this,event,'+e.idPropuesta+')'}">
-																		<span th:class="${o.icon}"></span>
-																	</button>
-																</th:block>
-																<th:block
-																	data-th-if="${o.nombre=='Cambiar Estado Propuesta'}">
-																	<button type="button" class="btn btn-info"
-																		th:attr="onclick=${'cambiarEstado(this,event,'+e.idPropuesta+')'}">
-																		<span th:class="${o.icon}"></span>
-																	</button>
-																</th:block>
-															</th:block>
-														</th:block></td>
-												</tr>
-											</th:block>
-										</tbody>
-									</table>
+											<table id="tblPropuesta" class="table w-100">
+												<thead class="text-warning">
+													<tr>
+														<th>Codigo</th>
+														<th>Usuario</th>
+														<th>Tipo de Propuesta</th>
+														<th>Descripcion</th>
+														<th>Fecha de envio</th>
+													</tr>
+												</thead>
+												<tbody>
+													<th:block data-th-each="p : ${propuestas}" th:remove="tag">
+														<tr>
+															<td th:text="${p.idPropuesta}"></td>
+															<td th:text="${p.usuario.usuario}"></td>
+															<td th:text="${p.tipopropuesta.nombreTipoPropuesta}"></td>
+															<td th:text="${p.descripcionPropuesta}"></td>
+															<td th:text="${p.fecha}"></td>
+														</tr>
+													</th:block>
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</th:block>
 				</div>
 			</div>
 

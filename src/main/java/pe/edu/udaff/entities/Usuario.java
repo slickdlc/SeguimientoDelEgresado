@@ -1,5 +1,5 @@
 package pe.edu.udaff.entities;
-// Generated 06-nov-2019 10:11:51 by Hibernate Tools 5.1.10.Final
+// Generated 07-nov-2019 2:34:51 by Hibernate Tools 5.1.10.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,18 +28,20 @@ public class Usuario implements java.io.Serializable {
 	private String pass;
 	private Byte estado;
 	private Set<Persona> personas = new HashSet<Persona>(0);
+	private Set<Propuesta> propuestas = new HashSet<Propuesta>(0);
 	private Set<Noticia> noticias = new HashSet<Noticia>(0);
 
 	public Usuario() {
 	}
 
 	public Usuario(Perfil perfil, String usuario, String pass, Byte estado, Set<Persona> personas,
-			Set<Noticia> noticias) {
+			Set<Propuesta> propuestas, Set<Noticia> noticias) {
 		this.perfil = perfil;
 		this.usuario = usuario;
 		this.pass = pass;
 		this.estado = estado;
 		this.personas = personas;
+		this.propuestas = propuestas;
 		this.noticias = noticias;
 	}
 
@@ -99,6 +101,15 @@ public class Usuario implements java.io.Serializable {
 
 	public void setPersonas(Set<Persona> personas) {
 		this.personas = personas;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
+	public Set<Propuesta> getPropuestas() {
+		return this.propuestas;
+	}
+
+	public void setPropuestas(Set<Propuesta> propuestas) {
+		this.propuestas = propuestas;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")

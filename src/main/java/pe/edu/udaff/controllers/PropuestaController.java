@@ -1,6 +1,9 @@
 package pe.edu.udaff.controllers;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pe.edu.udaff.entities.Antecedentelaboral;
-import pe.edu.udaff.entities.Primerempleo;
 import pe.edu.udaff.entities.Propuesta;
+import pe.edu.udaff.entities.Usuario;
 import pe.edu.udaff.service.PropuestaService;
+import pe.edu.udaff.service.UsuarioService;
 import pe.edu.udaff.util.JsonResponse;
 
 @Controller
@@ -23,6 +26,8 @@ public class PropuestaController {
 	@Autowired
 	private PropuestaService propuestaService;
 	private JsonResponse jsonResponse;
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@GetMapping()
 	public String renderizarPagina(){
@@ -30,16 +35,19 @@ public class PropuestaController {
 	}
 	@ModelAttribute
 	public void addAttributes(Model model){
+
 		model.addAttribute("propuestas",propuestaService.getAll());
+		model.addAttribute("tipos",propuestaService.getTipos());
 	}
 
 	@ResponseBody
 	@PostMapping("/insertar")
 	public JsonResponse Agregar(@RequestBody Propuesta propuesta) {
 		jsonResponse= new JsonResponse();
-//		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
-//		egresado.setPass(pe.encode(egresado.getPass()));
-		
+		propuesta.setFecha(new Date());
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		Usuario usuario= usuarioService.findByUsername(username);
+		propuesta.setUsuario(usuario);
 		boolean inserted;
 		inserted= propuestaService.insert(propuesta);
 		jsonResponse.respuestaInsertar(inserted);

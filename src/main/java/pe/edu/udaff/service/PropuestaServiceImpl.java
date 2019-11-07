@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import pe.edu.udaff.dao.PropuestaDao;
 import pe.edu.udaff.entities.Propuesta;
+import pe.edu.udaff.entities.Tipopropuesta;
 @Service("propuestaService")
 @Transactional
 public class PropuestaServiceImpl implements PropuestaService {
@@ -36,6 +37,12 @@ public class PropuestaServiceImpl implements PropuestaService {
 	public boolean insert(Propuesta propuesta) {
 		// TODO Auto-generated method stub
 		return propuestaDao.insert(propuesta);
+	}
+
+	@Override
+	public List<Tipopropuesta> getTipos() {
+		// TODO Auto-generated method stub
+		return propuestaDao.getTipos();
 	}
 
 }

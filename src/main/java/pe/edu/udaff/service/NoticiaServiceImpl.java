@@ -38,4 +38,10 @@ public class NoticiaServiceImpl implements NoticiaService {
 		return noticiaDao.insert(noticia);
 	}
 
+	@Override
+	public List<Noticia> getAllPublic() {
+		// TODO Auto-generated method stub
+		return noticiaDao.getAllPublic();
+	}
+
 }

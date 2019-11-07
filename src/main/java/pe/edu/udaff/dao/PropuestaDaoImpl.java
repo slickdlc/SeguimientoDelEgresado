@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import pe.edu.udaff.entities.Propuesta;
+import pe.edu.udaff.entities.Tipopropuesta;
 @Repository("propuestaDao")
 public class PropuestaDaoImpl implements PropuestaDao{
 	@Autowired
@@ -62,6 +63,12 @@ public class PropuestaDaoImpl implements PropuestaDao{
 			e.getMessage();
 			return false;
 		}
+	}
+
+	@Override
+	public List<Tipopropuesta> getTipos() {
+		// TODO Auto-generated method stub
+		return em.createQuery("from Tipopropuesta",Tipopropuesta.class).getResultList();
 	}
 
 }

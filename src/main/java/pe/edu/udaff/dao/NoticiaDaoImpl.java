@@ -25,18 +25,14 @@ public class NoticiaDaoImpl implements NoticiaDao{
 	@Override
 	public Noticia getById(Integer id) {
 		// TODO Auto-generated method stub
-		return em.createQuery("Select n from Noticia n where n.id=:id and n.estado=1", Noticia.class).setParameter("id", id)
+		return em.createQuery("Select n from Noticia n where n.id=:id", Noticia.class).setParameter("id", id)
 				.getSingleResult();
 	}
 
 	@Override
 	public List<Noticia> getAll() {
-		Date date= new Date();
-		String format= "yyyy-MM-dd";
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		sdf.format(date);
-		return em.createQuery("Select n from Noticia n where n.fechaDespublicacion>=:date and n.estado=1", Noticia.class)
-				.setParameter("date", date).getResultList();
+		return em.createQuery("from Noticia", Noticia.class)
+			.getResultList();
 	}
 
 	@Override
@@ -69,6 +65,16 @@ public class NoticiaDaoImpl implements NoticiaDao{
 			e.getMessage();
 			return false;
 		}
+	}
+
+	@Override
+	public List<Noticia> getAllPublic() {
+		Date date= new Date();
+		String format= "yyyy-MM-dd";
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		sdf.format(date);
+		return em.createQuery("Select n from Noticia n where n.fechaDespublicacion>=:date and n.estado=1", Noticia.class)
+				.setParameter("date", date).getResultList();
 	}
 
 }
