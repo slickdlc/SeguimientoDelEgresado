@@ -22,7 +22,7 @@ public class HomeController {
 	
 	@GetMapping()
 	public String home(Model model) {
-		model.addAttribute("title","Inicio | SSE");
+		model.addAttribute("title","Inicio | SGSE");
 		
 		return "views/admin/pages/home";
 	}

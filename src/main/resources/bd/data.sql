@@ -28,7 +28,7 @@ insert into Carrera value(0,"CONTABILIDAD");
 insert into Carrera value(0,"MARKETING");
 insert into Carrera value(0,"SECRETARIADO EJECUTIVO");
 insert into ModalidadEstudio value(0,"SISTEMA TRADICIONAL","HASTA 2014");
-insert into ModalidadEstudio value(0,"SISTEMA MODULAR","HASTA 2014");
+insert into ModalidadEstudio value(0,"SISTEMA MODULAR","DESDE 2015");
 insert into SituacionEgresado value(0,"EGRESADO CON DIPLOMA");
 insert into SituacionEgresado value(0,"EGRESADO CON TITULO");
 insert into SituacionEgresado value(0,"SOLO ESTUDIOS CONCLUIDOS");
@@ -69,15 +69,13 @@ Insert into Opcion values
                         (null,4,"Listar Propuestas",""),
                         (null,5,"Agregar Noticia","fas fa-plus"),/*15*/
                         (null,5,"Cambiar Estado Noticia","fas fa-sync-alt"),
-                        (null,5,"Editar Noticia","far fa-edit"),
-                        (null,5,"Listar Noticias","");/*18*/
+                        (null,5,"Editar Noticia","far fa-edit");/*18*/
 /* <Permisos para el admin>*/
 insert into Permiso values
 						(null,1,1,1),
                         (null,2,1,1),
                         (null,3,1,1),
                         (null,4,1,1),
-                        (null,5,1,1),
                         (null,6,1,1),
                         (null,7,1,1),
                         (null,8,1,1),
@@ -89,8 +87,7 @@ insert into Permiso values
                         (null,14,1,1),
                         (null,15,1,1),
                         (null,16,1,1),
-                        (null,17,1,1),
-                        (null,18,1,1);
+                        (null,17,1,1);
                         /* <Permisos para el admin/>*/
                         /* <Permisos para el SDE>*/
                         
@@ -103,8 +100,7 @@ insert into Permiso values
                         (null,14,3,1),
                         (null,15,3,1),
 						(null,16,3,1),
-                        (null,17,3,1),
-                        (null,18,3,1);
+                        (null,17,3,1);
                          /* <Permisos para el SDE/>*/
                          /* <Permisos para el Egresado>*/
 insert into Permiso values
@@ -113,5 +109,4 @@ insert into Permiso values
                         (null,10,2,1),
                         (null,11,2,1),
                         (null,12,2,1),
-                        (null,13,2,1),
-                        (null,18,2,1); /* <Permisos para el Egresado/>*/
+                        (null,13,2,1); /* <Permisos para el Egresado/>*/

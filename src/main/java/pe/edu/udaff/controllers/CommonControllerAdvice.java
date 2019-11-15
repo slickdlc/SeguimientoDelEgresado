@@ -21,7 +21,7 @@ public class CommonControllerAdvice {
 
 	@ModelAttribute
 	public void addAttributes(Model model, HttpServletRequest request) {
-		model.addAttribute("title", "CESDE | SSE");
+		model.addAttribute("title", "CESDE | SGSE");
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		model.addAttribute("nombreCompleto", username);
