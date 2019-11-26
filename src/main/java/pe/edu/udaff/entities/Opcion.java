@@ -49,7 +49,7 @@ public class Opcion implements java.io.Serializable {
 		this.idOpcion = idOpcion;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idSubModulo")
 	public Submodulo getSubmodulo() {
 		return this.submodulo;

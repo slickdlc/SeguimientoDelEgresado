@@ -193,6 +193,10 @@ constraint fk_prop_tipprop foreign key (idTipoPropuesta)references TipoPropuesta
 
 );
 
+create table tipoContrato(
+idTipoContrato int auto_increment primary key,
+nombreTipoContrato varchar(40));
+insert into tipocontrato values(0,"Indefinido"),(0,"Temporal"),(0,"Por obra o servicio"),(0,"Eventual"),(0,"De prácticas"),(0,"Sin contrato");
 create table Noticia(
 idNoticia int auto_increment primary key,
 descripcionNoticia varchar(255),

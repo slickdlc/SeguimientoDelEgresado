@@ -44,7 +44,7 @@ public class Permiso implements java.io.Serializable {
 		this.idPermiso = idPermiso;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idOpcion")
 	public Opcion getOpcion() {
 		return this.opcion;
@@ -72,5 +72,6 @@ public class Permiso implements java.io.Serializable {
 	public void setEstado(Byte estado) {
 		this.estado = estado;
 	}
+
 
 }

@@ -57,13 +57,13 @@
 
 					</th:block>
 
-					<div th:if="${noticias.size()==0}" class="card bg-primary">
+					<div th:if="${noticias.size()==0}" class="card bg-azure">
 						<div class="card-body">
 							<h5 class="card-category card-category-social">
-								<i class="fas fa-user"></i> <span th:text="${nombreCompleto}"></span>
+								<i class="fas fa-user"></i> Bienvenido!
 							</h5>
 							<h4 class="card-title">
-								<p>Bienvenido!</p>
+								<p> <span th:text="${nombreCompleto}"></span></p>
 							</h4>
 						</div>
 					</div>

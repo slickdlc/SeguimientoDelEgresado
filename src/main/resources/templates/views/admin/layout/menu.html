@@ -1,18 +1,18 @@
 
-<div class="sidebar" data-background-color="black" data-color="azure"
+<div class="sidebar" data-background-color="azure" data-color="azure"
 	th:data-image="@{/private/img/sidebar-3.jpg}">
 
 
 	<div class="sidebar-wrapper">
-		<div class="logo">
+		<div class="logo bg-azure">
 			<a class="simple-text  logo-mini" th:href="@{/admin/home/}"> <img
 				th:src="@{/private/img/logo/LOGOCESDEE.png}" height="35">
-			</a> <a class="simple-text  logo-normal" th:href="@{/admin/home/}">
+			</a> <a class="simple-text  logo-normal text-light" th:href="@{/admin/home/}">
 				CESDE | SGSE</a>
 		</div>
 		<ul class="nav">
 			<th:block data-th-each="modulo : ${modulos}" th:remove="tag">
-				<li class="nav-item"><a class="nav-link" data-toggle="collapse"
+				<li class="nav-item"><a class="nav-link" data-toggle="collapse" 
 					th:href="${'#'+modulo.idModulo}"> <i th:class="${modulo.icono}"></i>
 						<p th:text="${modulo.nombre}">
 							<b class="caret"></b>
@@ -26,7 +26,7 @@
 									data-th-if="${isEgresado}">
 									<th:block
 										data-th-if="${modulo.idModulo == submodulo.modulo.idModulo && submodulo.nombre!='Egresados'}">
-										<li class="nav-item "><a class="nav-link"
+										<li class="nav-item"th:classappend="${submodulo.url== url}? ' active'"><a class="nav-link"
 											th:href="@{${submodulo.url}}"><span class="sidebar-mini"
 												th:text="${submodulo.nombre.substring(0,1)}"> </span> <span
 												class="sidebar-normal" th:text="${submodulo.nombre}"></span></a></li>
@@ -36,7 +36,7 @@
 									data-th-if="!${isEgresado}">
 									<th:block
 										data-th-if="${modulo.idModulo == submodulo.modulo.idModulo && submodulo.nombre!='Mi Perfil' }">
-										<li class="nav-item "><a class="nav-link"
+										<li class="nav-item" th:classappend="${submodulo.url== url}? ' active'"><a class="nav-link"
 											th:href="@{${submodulo.url}}"><span class="sidebar-mini"
 												th:text="${submodulo.nombre.substring(0,1)}"> </span> <span
 												class="sidebar-normal" th:text="${submodulo.nombre}"></span></a></li>

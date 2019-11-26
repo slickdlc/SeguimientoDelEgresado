@@ -25,10 +25,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@Override
 	public Persona getById(Integer idUsuario) {
 		// TODO Auto-generated method stub
-		return em.createQuery("Select p from Persona p "
-				+ "inner join p.usuario u "
-				+ "where u.id=:id ", Persona.class).setParameter("id", idUsuario)
-				.getSingleResult();
+		try {
+			return em.createQuery("Select p from Persona p " + "inner join p.usuario u " + "where u.id=:id ",
+					Persona.class).setParameter("id", idUsuario).getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			session.close();
 			return true;
 		} catch (Exception e) {
-			System.out.println("Error en insert usuario:"+e.getMessage());
+			System.out.println("Error en insert usuario:" + e.getMessage());
 			return false;
 		}
 	}

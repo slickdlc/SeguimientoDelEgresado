@@ -66,7 +66,7 @@ public class Perfil implements java.io.Serializable {
 		this.estado = estado;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "perfil")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "perfil")
 	public Set<Permiso> getPermisos() {
 		return this.permisos;
 	}

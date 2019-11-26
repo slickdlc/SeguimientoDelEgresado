@@ -119,7 +119,7 @@ public class NoticiaController {
 	public boolean notificarEnFacebook(String message) throws FacebookException, MalformedURLException {
 		String appId = "2504347369798635";
 		String appSecret = "b4dabef36e88eb545bdb5cc498437fc1";
-		String token = "EAAjlsM9eZBZBsBAHYLJmtEYww8wuGYSNuJS2yIhe4Wew01LP2nOvrCe1m4BYZBQzZChP8WsNkrXZCYc82R6ZCS0mblQsT4fowGGh6HLxVc3zaEJ2VFhjLwN2w3JGvMZBNNWAAIbqTI1ZC072zjh5bZBZBQbmV34MvYyq2jLZAWqZBrwPJyia94qRa9SrYK7wumZBHO5YZD";
+		String token = "EAAjlsM9eZBZBsBAF9GLoYmut8ZAwZBCrkBPHCRujKEk3knxl5rFSobkJnf80Ry6Jg3SQgC1FJvzVN7ARYDUuZCEiUsIvknNpGoUBnZAwgXq9yzcyN0rCc78mvi6cLwJlUuE9PFMeB1jXZCsNMrEitzWqHAfQPPlTwaN2DamVyLJu6tb3eoC2J1HKSm1ZA714scIZD";
 		Facebook facebook = new FacebookFactory().getInstance();
 		facebook.setOAuthAppId(appId, appSecret);
 		facebook.setOAuthAccessToken(new AccessToken(token, null));

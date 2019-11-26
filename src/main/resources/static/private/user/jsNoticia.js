@@ -53,6 +53,7 @@ $('#btnGuardar').click(
 		function(e) {
 			$("#formNoticia").validate({
 				submitHandler : function(form) {
+					$('#btnGuardar').attr("disabled",true);
 					var editar = false;
 					if ($('#btnGuardar').text() == "Guardar") {
 						editar = true;
@@ -74,12 +75,14 @@ $('#btnGuardar').click(
 						dataType : 'json',
 						contentType : 'application/json',
 						success : function(dataResponse) {
+							$('#btnGuardar').attr("disabled",false);
 							if (jsonToDivError(dataResponse,
 									'#rowNoticia #divMessage', "")) {
 								$('#lista').addClass("hidden");
 							}
 						}
 					});
+				
 					e.preventDefault();
 				}
 			});
